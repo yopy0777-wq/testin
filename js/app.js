@@ -701,7 +701,7 @@ window.openEditModal = function(id) {
 // ============================================
 // 現在地取得 (getCurrentLocation 関数)
 // ============================================
-function getCurrentLocation() {
+async function getCurrentLocation() {
     if (!navigator.geolocation) {
         showToast('お使いのブラウザは位置情報に対応していません', 'error');
         return;
