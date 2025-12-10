@@ -499,18 +499,24 @@ window.openEditModal = function(id) {
         // フォーム送信時に実行する処理を、登録 (handleSubmit) から更新 (handleUpdate) に変更
         const form = document.getElementById('addLocationForm');
         form.removeEventListener('submit', handleSubmit); // 古いリスナーを削除
+        form.removeEventListener('submit', handleUpdate);
 
         // 🟢 フォームにIDを一時的に保持
+        form.addEventListener('submit', handleUpdate);
         form.dataset.editId = id; 
         
         // 🟢 handleUpdateを呼び出す新しいリスナーを追加
-        form.addEventListener('submit', handleUpdate); 
+        //form.addEventListener('submit', handleUpdate); 
 
         // ヘッダーを「編集」に変更
         document.querySelector('#addModal .modal-header h2').textContent = '薪販売場所の編集';
         document.querySelector('#addModal button[type="submit"]').innerHTML = '<i class="fas fa-save"></i> 更新';
         
-        openAddModal(); // 既存のモーダルを開く
+        // 🟢 モーダルを開く処理を直接記述（openAddModalを呼ばない）
+        document.getElementById('addModal').classList.add('active');
+        document.body.style.overflow = 'hidden';
+        
+        //openAddModal(); // 既存のモーダルを開く
     } else {
         showToast('編集対象のデータが見つかりません', 'error');
     }
