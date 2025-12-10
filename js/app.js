@@ -44,17 +44,25 @@ function initMap() {
     const defaultLng = 138.0;
     const defaultZoom = 6;
 
-    // 🟢 修正：worldCopyJump: false を追加
+// 🟢 1. 最大境界 (Max Bounds) の定義
+    // (北端(90), 西端(-180)) と (南端(-90), 東端(180)) を設定し、地球全体をカバー
+    const southWest = L.latLng(-90, -180);
+    const northEast = L.latLng(90, 180);
+    const bounds = L.latLngBounds(southWest, northEast);
+
+    // 🟢 2. L.map() の初期化オプションに maxBounds を追加 (worldCopyJump: false は維持)
     map = L.map('map', {
-        worldCopyJump: false // 地図の無限ラップ（左右の繰り返し）を無効にする
+        worldCopyJump: false, // 地図の無限ラップ（左右の繰り返し）を無効にする (念のため維持)
+        maxBounds: bounds,      // 地図のドラッグ可能範囲を地球全体に制限
+        maxBoundsViscosity: 1.0 // 境界線でぴったり止まるように粘性を設定
     }).setView([defaultLat, defaultLng], defaultZoom);
-    
-    //map = L.map('map').setView([defaultLat, defaultLng], defaultZoom);
 
     // OpenStreetMapタイルレイヤー（無料）
+    // 🟢 3. タイルレイヤーに noWrap: true を追加
     L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
         attribution: '© OpenStreetMap contributors',
-        maxZoom: 19
+        maxZoom: 19,
+        noWrap: true // タイル画像を繰り返さないように設定
     }).addTo(map);
 
 // 🟢 修正：ここでマップクリックリスナーを登録する
