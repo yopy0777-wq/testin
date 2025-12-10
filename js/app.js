@@ -53,7 +53,7 @@ function initMap() {
     }).addTo(map);
 
 // 🟢 修正：ここでマップクリックリスナーを登録する
-    map.on('click', function(e) {
+    map.on('click', async function(e) {
         // マップ選択モードがONの時のみ動作する
         if (isSelectingLocation) {
             // 1. 座標を取得してフォームにセット
