@@ -52,6 +52,26 @@ function initMap() {
         maxZoom: 19
     }).addTo(map);
 
+// 🟢 修正：ここでマップクリックリスナーを登録する
+    map.on('click', function(e) {
+        // マップ選択モードがONの時のみ動作する
+        if (isSelectingLocation) {
+            // 1. 座標を取得してフォームにセット
+            // 修正済み: e.latlng.lng.lng を e.latlng.lng に変更
+            document.getElementById('latitude').value = e.latlng.lat.toFixed(6);
+            document.getElementById('longitude').value = e.latlng.lng.toFixed(6); 
+            
+            // 2. 選択モードをOFFに戻す
+            isSelectingLocation = false;
+            
+            // 3. モーダルを再表示 (openAddModal関数を呼び出す)
+            openAddModal(); 
+
+            // 4. ユーザーに通知
+            showToast(`座標（${e.latlng.lat.toFixed(4)}, ${e.latlng.lng.toFixed(4)}）を取得し、フォームに反映しました`, 'success');
+        }
+    });
+
     // 現在地取得を試みる
     if (navigator.geolocation) {
         navigator.geolocation.getCurrentPosition(
@@ -101,26 +121,7 @@ function initEventListeners() {
    // 🟢 新しいボタンのリスナーを追加
     document.getElementById('selectFromMapBtn').addEventListener('click', startMapSelection);
     
-// 🟢 マップクリックリスナーの修正 (isSelectingLocation フラグを確認する)
-if (map) {
-    map.on('click', function(e) {
-        // 修正: マップ選択モードがONの時のみ動作する
-        if (isSelectingLocation) {
-            // 1. 座標を取得してフォームにセット
-            document.getElementById('latitude').value = e.latlng.lat.toFixed(6);
-            document.getElementById('longitude').value = e.latlng.lng.lng.toFixed(6);
-            
-            // 2. 選択モードをOFFに戻す
-            isSelectingLocation = false;
-            
-            // 3. モーダルを再表示 (openAddModal関数を呼び出す)
-            openAddModal(); 
 
-            // 4. ユーザーに通知
-            showToast(`座標（${e.latlng.lat.toFixed(4)}, ${e.latlng.lng.toFixed(4)}）を取得し、フォームに反映しました`, 'success');
-        }
-    });
-}
 
     // フォーム送信
     document.getElementById('addLocationForm').addEventListener('submit', handleSubmit);
