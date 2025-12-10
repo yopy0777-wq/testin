@@ -64,8 +64,10 @@ function initMap() {
             // 2. 選択モードをOFFに戻す
             isSelectingLocation = false;
             
-            // 3. モーダルを再表示 (openAddModal関数を呼び出す)
-            openAddModal(); 
+            // 3. モーダルを「リセットせずに」再表示する (ここを修正)
+            // 🔴 openAddModal() の代わりに、モーダルを開く処理だけを実行する
+            document.getElementById('addModal').classList.add('active');
+            document.body.style.overflow = 'hidden';
 
             // 4. ユーザーに通知
             showToast(`座標（${e.latlng.lat.toFixed(4)}, ${e.latlng.lng.toFixed(4)}）を取得し、フォームに反映しました`, 'success');
