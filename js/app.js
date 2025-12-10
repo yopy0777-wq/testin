@@ -558,6 +558,16 @@ function startMapSelection() {
     // 2. 選択モードをONにする
     isSelectingLocation = true;
     
+    // 🟢 修正点：マップのサイズを再計算し、再描画を強制する
+    if (map) {
+        // 少し遅延させることで、モーダルが完全に閉じてから実行することを保証
+        setTimeout(() => {
+            map.invalidateSize(); 
+            // ズームレベルはそのままに、表示位置だけ再中央寄せしたい場合は次の行も有効にできます
+            // map.panTo(map.getCenter());
+        }, 50); // 50ミリ秒遅延
+    }
+    
     // 3. ユーザーに通知し、マップの操作を促す
     showToast('地図上の登録したい場所をクリックしてください', 'info');
 }
