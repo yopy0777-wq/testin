@@ -97,6 +97,18 @@ function initEventListeners() {
         if (e.target.id === 'detailModal') closeDetailModal();
     });
 
+    // 🟢 追加: マップクリックで座標をフォームに自動入力するリスナー
+    if (map) {
+        map.on('click', function(e) {
+            // モーダルが開いている場合のみ処理を実行
+            if (document.getElementById('addModal').classList.contains('active')) {
+                document.getElementById('latitude').value = e.latlng.lat.toFixed(6);
+                document.getElementById('longitude').value = e.latlng.lng.lng.toFixed(6);
+                showToast(`クリックした座標（${e.latlng.lat.toFixed(4)}, ${e.latlng.lng.toFixed(4)}）を取得しました`, 'info');
+            }
+        });
+    }
+
     // フォーム送信
     document.getElementById('addLocationForm').addEventListener('submit', handleSubmit);
 
