@@ -61,6 +61,19 @@ function initMap() {
             document.getElementById('latitude').value = e.latlng.lat.toFixed(6);
             document.getElementById('longitude').value = e.latlng.lng.toFixed(6); 
             
+            showToast('座標を取得しました。住所を検索中...', 'info');
+
+            // 🟢 逆ジオコーディングを実行 
+            const address = await reverseGeocode(e.latlng.lat, e.latlng.lng);
+            
+            if (address) {
+                document.getElementById('address').value = address;
+                showToast(`座標と住所（${address.substring(0, 20)}...）をフォームに反映しました`, 'success');
+            } else {
+                document.getElementById('address').value = ''; // 取得できなかった場合はクリア
+                showToast('座標は取得しましたが、住所の検索に失敗しました。手動で入力してください。', 'warning');
+            }
+            
             // 2. 選択モードをOFFに戻す
             isSelectingLocation = false;
             
@@ -611,6 +624,33 @@ async function geocodeAddress(address) {
 }
 
 // ============================================
+// 逆ジオコーディング関数（座標 -> 住所）を新規追加
+// ============================================
+async function reverseGeocode(lat, lng) {
+    // Nominatim APIを使用（OpenStreetMap）
+    // lat, lon で座標を指定し、format=json を指定
+    const url = `https://nominatim.openstreetmap.org/reverse?format=jsonv2&lat=${lat}&lon=${lng}&zoom=18&addressdetails=1`;
+    
+    try {
+        const response = await fetch(url);
+        if (!response.ok) {
+            console.error('Nominatim Reverse API Request Failed with status:', response.status);
+            return null;
+        }
+
+        const data = await response.json();
+        
+        if (data && data.display_name) {
+            // 取得した住所の表示名 (display_name) を返す
+            return data.display_name;
+        }
+    } catch (error) {
+        console.error('逆ジオコーディングエラー:', error);
+    }
+    return null;
+}
+
+// ============================================
 // 編集モーダル操作
 // ============================================
 window.openEditModal = function(id) {
@@ -659,7 +699,7 @@ window.openEditModal = function(id) {
 };
 
 // ============================================
-// 現在地取得
+// 現在地取得 (getCurrentLocation 関数)
 // ============================================
 function getCurrentLocation() {
     if (!navigator.geolocation) {
@@ -670,10 +710,26 @@ function getCurrentLocation() {
     showLoading();
     
     navigator.geolocation.getCurrentPosition(
-        position => {
-            document.getElementById('latitude').value = position.coords.latitude.toFixed(6);
-            document.getElementById('longitude').value = position.coords.longitude.toFixed(6);
-            showToast('現在地を取得しました', 'success');
+        async position => { // 👈 修正: async を追加
+            const lat = position.coords.latitude;
+            const lng = position.coords.longitude;
+            
+            document.getElementById('latitude').value = lat.toFixed(6);
+            document.getElementById('longitude').value = lng.toFixed(6);
+            
+            showToast('現在地を取得しました。住所を検索中...', 'info');
+            
+            // 🟢 逆ジオコーディングを実行
+            const address = await reverseGeocode(lat, lng);
+            
+            if (address) {
+                document.getElementById('address').value = address;
+                showToast('現在地座標と住所をフォームに反映しました', 'success');
+            } else {
+                document.getElementById('address').value = '';
+                showToast('座標は取得しましたが、住所の検索に失敗しました。', 'warning');
+            }
+            
             hideLoading();
         },
         error => {
@@ -683,7 +739,6 @@ function getCurrentLocation() {
         }
     );
 }
-
 // ============================================
 // フィルター関連
 // ============================================
