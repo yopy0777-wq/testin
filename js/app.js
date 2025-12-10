@@ -528,11 +528,20 @@ async function handleUpdate(e) {
 async function geocodeAddress(address) {
     if (!address) return null;
 
+    // 検索精度向上のため、住所に「日本」を付加
+    const fullAddress = address.includes('日本') ? address : address + ', 日本';
+
     // Nominatim APIを使用（OpenStreetMap）
-    const url = `https://nominatim.openstreetmap.org/search?format=json&q=${encodeURIComponent(address)}&limit=1&countrycodes=jp`;
+    const url = `https://nominatim.openstreetmap.org/search?format=json&q=${encodeURIComponent(fullAddress)}&limit=1&countrycodes=jp`;
     
     try {
         const response = await fetch(url);
+        // ステータスコードの確認
+        if (!response.ok) {
+            console.error('Nominatim API Request Failed with status:', response.status);
+            return null;
+        }
+
         const data = await response.json();
 
         if (data && data.length > 0) {
