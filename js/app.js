@@ -77,7 +77,7 @@ function initMap() {
             showToast('座標を取得しました。住所を検索中...', 'info');
 
             // 🟢 逆ジオコーディングを実行 
-            const address = await reverseGeocode(e.latlng.lat, e.latlng.lng);
+            /*const address = await reverseGeocode(e.latlng.lat, e.latlng.lng);
             
             if (address) {
                 document.getElementById('address').value = address;
@@ -86,6 +86,7 @@ function initMap() {
                 document.getElementById('address').value = ''; // 取得できなかった場合はクリア
                 showToast('座標は取得しましたが、住所の検索に失敗しました。手動で入力してください。', 'warning');
             }
+            */
             
             // 2. 選択モードをOFFに戻す
             isSelectingLocation = false;
@@ -413,7 +414,7 @@ async function handleSubmit(e) {
     let latitude;
     let longitude;
     
-    // 1. 緯度・経度が空欄で、住所が入力されている場合、ジオコーディングを試みる
+    /* 1. 緯度・経度が空欄で、住所が入力されている場合、ジオコーディングを試みる
     if ((!latValue || !lngValue) && addressValue) {
         showToast('住所から座標を検索中...', 'info');
         const coords = await geocodeAddress(addressValue);
@@ -432,10 +433,12 @@ async function handleSubmit(e) {
             return;
         }
     } else {
+       */
+       
         // 2. 緯度・経度が入力されている場合は、その値を使用
         latitude = parseFloat(latValue);
         longitude = parseFloat(lngValue);
-    }
+    //}
     
     // 3. 最終バリデーション
     if (isNaN(latitude) || isNaN(longitude)) {
@@ -451,10 +454,10 @@ async function handleSubmit(e) {
         //price: document.getElementById('price').value,
         // 🟢 修正: 価格を数値に変換（NaNはnullまたは0として扱う）
         price: parseInt(document.getElementById('price').value) || null,
-        address: addressValue || '', // 住所の変数を使用
+        //address: addressValue || '', // 住所の変数を使用
         latitude: latitude,     
         longitude: longitude,   
-        contact: document.getElementById('contact').value || '',
+        //contact: document.getElementById('contact').value || '',
         notes: document.getElementById('notes').value || ''
     };
 
@@ -510,7 +513,7 @@ async function handleUpdate(e) {
     let latitude;
     let longitude;
 
-    // 1. 緯度・経度が空欄で、住所が入力されている場合、ジオコーディングを試みる
+    /* 1. 緯度・経度が空欄で、住所が入力されている場合、ジオコーディングを試みる
     if ((!latValue || !lngValue) && addressValue) {
         showToast('住所から座標を検索中...', 'info');
         const coords = await geocodeAddress(addressValue); // ジオコーディング関数を呼び出し
@@ -529,10 +532,12 @@ async function handleUpdate(e) {
             return;
         }
     } else {
+        */
+        
         // 2. 緯度・経度が入力されている場合は、その値を使用
         latitude = parseFloat(latValue);
         longitude = parseFloat(lngValue);
-    }
+    //}
 
     // 3. 最終バリデーション
     if (isNaN(latitude) || isNaN(longitude)) {
@@ -549,10 +554,10 @@ async function handleUpdate(e) {
         //price: document.getElementById('price').value,
         // 🟢 修正: 価格を数値に変換（NaNはnullまたは0として扱う）
         price: parseInt(document.getElementById('price').value) || null,
-        address: addressValue || '',
+        //address: addressValue || '',
         latitude: latitude,
         longitude: longitude,
-        contact: document.getElementById('contact').value || '',
+        //contact: document.getElementById('contact').value || '',
         notes: document.getElementById('notes').value || ''
     };
     
@@ -689,10 +694,10 @@ window.openEditModal = function(id) {
         document.getElementById('locationName').value = locationToEdit.location_name || '';
         document.getElementById('woodType').value = locationToEdit.wood_type || '';
         document.getElementById('price').value = locationToEdit.price || '';
-        document.getElementById('address').value = locationToEdit.address || '';
+        //document.getElementById('address').value = locationToEdit.address || '';
         document.getElementById('latitude').value = locationToEdit.latitude || '';
         document.getElementById('longitude').value = locationToEdit.longitude || '';
-        document.getElementById('contact').value = locationToEdit.contact || '';
+        //document.getElementById('contact').value = locationToEdit.contact || '';
         document.getElementById('notes').value = locationToEdit.notes || '';
 
         // フォーム送信時に実行する処理を、登録 (handleSubmit) から更新 (handleUpdate) に変更
@@ -744,7 +749,7 @@ async function getCurrentLocation() {
             showToast('現在地を取得しました。住所を検索中...', 'info');
             
             // 🟢 逆ジオコーディングを実行
-            const address = await reverseGeocode(lat, lng);
+           /* const address = await reverseGeocode(lat, lng);
             
             if (address) {
                 document.getElementById('address').value = address;
@@ -753,6 +758,7 @@ async function getCurrentLocation() {
                 document.getElementById('address').value = '';
                 showToast('座標は取得しましたが、住所の検索に失敗しました。', 'warning');
             }
+            */
             
             hideLoading();
         },
