@@ -407,7 +407,7 @@ async function handleSubmit(e) {
     e.preventDefault();
     showLoading();
 
-    const addressValue = document.getElementById('address').value;
+    //const addressValue = document.getElementById('address').value;
     let latValue = document.getElementById('latitude').value;
     let lngValue = document.getElementById('longitude').value;
     
@@ -506,7 +506,7 @@ async function handleUpdate(e) {
     }
 
     // 🟢 ジオコーディングに必要な値を取得
-    const addressValue = document.getElementById('address').value;
+    //const addressValue = document.getElementById('address').value;
     let latValue = document.getElementById('latitude').value;
     let lngValue = document.getElementById('longitude').value;
     
