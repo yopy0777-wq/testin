@@ -166,6 +166,23 @@ function initEventListeners() {
             });
         }
     });
+
+    const refreshBtn = document.getElementById('refreshBtn');
+        if (refreshBtn) {
+            refreshBtn.addEventListener('click', () => {
+                // アイコンを回転させる演出（任意）
+                const icon = refreshBtn.querySelector('i');
+                icon.classList.add('fa-spin');
+                
+                // データの再読み込み
+                loadLocations().finally(() => {
+                    // 読み込み完了後に回転を止める（少し遅らせると動いた感が出ます）
+                    setTimeout(() => icon.classList.remove('fa-spin'), 500);
+                    showToast('情報を更新しました');
+                });
+            });
+        }
+
 }
 
 // ============================================

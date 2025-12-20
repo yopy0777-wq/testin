@@ -63,6 +63,32 @@ header h1 {
     gap: 0.5rem;
 }
 
+/* style.css に追加 */
+.header-actions {
+    display: flex;
+    gap: 10px; /* ボタン同士の隙間 */
+    align-items: center;
+}
+
+#refreshBtn {
+    width: 40px;
+    height: 40px;
+    padding: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%; /* 丸いボタンにする */
+}
+
+/* 回転アニメーション用 */
+.fa-spin {
+    animation: fa-spin 1s infinite linear;
+}
+@keyframes fa-spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(359deg); }
+}
+
 /* ============================================
    ボタン
    ============================================ */
