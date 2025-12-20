@@ -298,11 +298,12 @@ main {
 }
 
 .list-toggle {
-    padding: 10px;
+    background: none;
+    border: none;
+    font-size: 1.5rem;
+    color: var(--text-secondary);
     cursor: pointer;
-    display: flex;
-    align-items: center;
-    justify-content: center;
+    transition: transform 0.3s ease;
 }
 
 .list-panel.collapsed .list-toggle {
