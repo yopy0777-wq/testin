@@ -434,6 +434,12 @@ async function handleSubmit(e) {
         return;
     }
     
+    const notes = document.getElementById('notes').value;
+    if (locationName.length > 100) {
+        showToast('備考は100文字以内で入力してください', 'error');
+        return;
+    }
+    
     showLoading();
 
     //const addressValue = document.getElementById('address').value;
@@ -527,6 +533,12 @@ async function handleUpdate(e) {
         showToast('場所名は40文字以内で入力してください', 'error');
         return;
     }    
+    
+    const notes = document.getElementById('notes').value;
+    if (locationName.length > 100) {
+        showToast('備考は100文字以内で入力してください', 'error');
+        return;
+    }
     
     showLoading();
     
