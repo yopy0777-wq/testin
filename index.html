@@ -101,21 +101,19 @@
                 </button>
             </div>
             <form id="addLocationForm" novalidate>
-                
-                <!---追加分--->
-                <div class="form-group">
-                    <label for="placeSearch">場所を検索 (住所や施設名)</label>
-                    <div style="display: flex; gap: 5px;">
+                <div class="search-outer-container">
+                    <label for="placeSearch" class="form-label">場所を検索 (住所や施設名)</label>
+                    <div class="search-flex-box">
                         <input type="text" id="placeSearch" class="form-control" placeholder="例: 広島県八千代町">
-                        <button type="button" id="execSearchBtn" class="btn btn-secondary" style="white-space: nowrap;">
+                        <button type="button" id="execSearchBtn" class="btn btn-secondary">
                             <i class="fas fa-search"></i> 検索
-                        </div>
+                        </button>
                     </div>
-                    <small style="color: var(--text-secondary);">検索して候補を選択すると、地図が移動します。</small>
+                    <div id="searchResults" class="search-results-list"></div>
+                    <small class="help-text">検索して候補を選択すると、地図が移動します。</small>
                 </div>
-                <div id="searchResults" class="search-results-list"></div> <hr>
 
-
+                <hr class="form-divider">
 
                 <div class="form-group">
                     <label for="locationName">場所名 <span class="required">*</span></label>
