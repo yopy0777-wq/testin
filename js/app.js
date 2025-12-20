@@ -251,7 +251,7 @@ function displayLocationsOnMap(locations) {
 function displayLocationsList(locations) {
     const listContainer = document.getElementById('locationList');
     
-    const date = location.updated_at ? new Date(location.updated_at).toLocaleDateString('ja-JP') : '-';
+    
     
     if (locations.length === 0) {
         listContainer.innerHTML = `
@@ -267,7 +267,6 @@ function displayLocationsList(locations) {
         <div class="location-card" onclick="showDetail('${location.id}')">
             <div class="location-card-header">
                 <div class="location-card-title">${location.location_name || '名称未設定'}</div>
-                <span style="font-size: 0.7rem; color: #888;">更新: ${date}</span> </div>
             </div>
             <div class="location-card-info">
                 <p><i class="fas fa-tree"></i> ${location.wood_type || '未設定'}</p>
