@@ -417,31 +417,41 @@ async function handleSubmit(e) {
     const locationName = document.getElementById('locationName').value;
     const notes = document.getElementById('notes').value;
 
-    // 入力がある場合に、数値でない、またはマイナスでないかをチェック
-    if (priceInput !== "") {
-        if (isNaN(priceValue) || priceValue < 0) {
-            showToast('価格には0以上の数字を入力してください', 'error');
-            return;
-        }
-        // 100,000(10万）以上の場合はエラーにする
-        if (priceValue > 100000) {
-            showToast('価格が大きすぎます。10万円以内で入力してください', 'error');
-            return;
-        }
+    //入力チェック---------
+    if (!locationName) {
+        showToast('場所名を入力してください', 'error');
+        return;
     }
-    
-    
+    if (!woodType) {
+        showToast('薪の種類を選択してください', 'error');
+        return;
+    }
+    if (priceInput === "") {
+        showToast('価格を入力してください', 'error');
+        return;
+    }
+
+    // --- 既存のバリデーション（文字数や数値範囲） ---
     if (locationName.length > 40) {
         showToast('場所名は40文字以内で入力してください', 'error');
         return;
     }
-    
-    
+
+    const priceValue = parseInt(priceInput);
+    if (isNaN(priceValue) || priceValue < 0) {
+        showToast('価格には0以上の数字を入力してください', 'error');
+        return;
+    }
+    if (priceValue > 100000) {
+        showToast('価格は10万円以内で入力してください', 'error');
+        return;
+    }
+
     if (notes.length > 100) {
         showToast('備考は100文字以内で入力してください', 'error');
         return;
     }
-    
+    //--------------
     showLoading();
 
     //const addressValue = document.getElementById('address').value;
@@ -519,30 +529,41 @@ async function handleUpdate(e) {
     const locationName = document.getElementById('locationName').value;
     const notes = document.getElementById('notes').value;
 
-    // 入力がある場合に、数値でない、またはマイナスでないかをチェック
-    if (priceInput !== "") {
-        if (isNaN(priceValue) || priceValue < 0) {
-            showToast('価格には0以上の数字を入力してください', 'error');
-            return;
-        }
-        // 100,000(10万）以上の場合はエラーにする
-        if (priceValue > 100000) {
-            showToast('価格が大きすぎます。10万円以内で入力してください', 'error');
-            return;
-        }
+    //入力チェック----------
+    if (!locationName) {
+        showToast('場所名を入力してください', 'error');
+        return;
     }
-    
-    
+    if (!woodType) {
+        showToast('薪の種類を選択してください', 'error');
+        return;
+    }
+    if (priceInput === "") {
+        showToast('価格を入力してください', 'error');
+        return;
+    }
+
+    // --- 既存のバリデーション（文字数や数値範囲） ---
     if (locationName.length > 40) {
         showToast('場所名は40文字以内で入力してください', 'error');
         return;
-    }    
-    
-    
+    }
+
+    const priceValue = parseInt(priceInput);
+    if (isNaN(priceValue) || priceValue < 0) {
+        showToast('価格には0以上の数字を入力してください', 'error');
+        return;
+    }
+    if (priceValue > 100000) {
+        showToast('価格は10万円以内で入力してください', 'error');
+        return;
+    }
+
     if (notes.length > 100) {
         showToast('備考は100文字以内で入力してください', 'error');
         return;
     }
+    //----------------
     
     showLoading();
     
