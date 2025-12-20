@@ -222,6 +222,40 @@ main {
     width: 100%;
 }
 
+/* フィルター内の入力欄とセレクトボックスを共通化 */
+.filter-group input,
+.filter-group select {
+    width: 100%;
+    padding: 0.75rem;
+    border: 2px solid var(--border-color);
+    border-radius: 8px; /* フォーム側と合わせた角の丸み */
+    font-size: 1rem;
+    font-family: 'Noto Sans JP', sans-serif; /* */
+    background-color: var(--bg-white);
+    color: var(--text-primary);
+    transition: border-color 0.3s ease;
+}
+
+/* フィルターのセレクトボックス専用設定（矢印の追加） */
+.filter-group select {
+    appearance: none;
+    -webkit-appearance: none;
+    cursor: pointer;
+    /* モダンな下向き矢印アイコンを背景として配置 */
+    background-image: url('data:image/svg+xml;charset=UTF-8,<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="%23666" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"></polyline></svg>');
+    background-repeat: no-repeat;
+    background-position: right 12px center;
+    background-size: 16px;
+    padding-right: 40px;
+}
+
+/* フォーカス時の色 */
+.filter-group input:focus,
+.filter-group select:focus {
+    outline: none;
+    border-color: var(--primary-color);
+}
+
 /* ============================================
    リストパネル
    ============================================ */
