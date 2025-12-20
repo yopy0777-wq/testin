@@ -454,6 +454,35 @@ form {
     margin-top: 2rem;
 }
 
+/* ドロップダウン(select)をinputと同じ見た目にする */
+.form-group select {
+    width: 100%;
+    padding: 0.75rem;
+    border: 2px solid var(--border-color);
+    border-radius: 8px; /* 角の丸みをinputと合わせる */
+    font-size: 1rem;
+    font-family: 'Noto Sans JP', sans-serif;
+    background-color: var(--bg-white);
+    color: var(--text-primary);
+    cursor: pointer;
+    transition: border-color 0.3s ease;
+    
+    /* ブラウザ標準の矢印を消して、少しモダンな矢印にするための設定 */
+    appearance: none;
+    -webkit-appearance: none;
+    background-image: url('data:image/svg+xml;charset=UTF-8,<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="%23666" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"></polyline></svg>');
+    background-repeat: no-repeat;
+    background-position: right 12px center;
+    background-size: 16px;
+    padding-right: 40px; /* 矢印と文字が重ならないように */
+}
+
+/* フォーカスした時（クリックした時）の枠線 */
+.form-group select:focus {
+    outline: none;
+    border-color: var(--primary-color);
+}
+
 /* ============================================
    詳細表示
    ============================================ */
