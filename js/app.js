@@ -416,6 +416,7 @@ async function handleSubmit(e) {
     const priceValue = parseInt(priceInput);
     const locationName = document.getElementById('locationName').value;
     const notes = document.getElementById('notes').value;
+    const woodType = document.getElementById('woodType').value;
 
     //入力チェック---------
     if (!locationName) {
@@ -527,6 +528,7 @@ async function handleUpdate(e) {
     const priceValue = parseInt(priceInput);
     const locationName = document.getElementById('locationName').value;
     const notes = document.getElementById('notes').value;
+    const woodType = document.getElementById('woodType').value;
 
     //入力チェック----------
     if (!locationName) {
