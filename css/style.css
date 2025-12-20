@@ -84,7 +84,7 @@ header h1 {
     color: white;           /* アイコンの色を白にする（ヘッダーが茶色の場合） */
     cursor: pointer;
     transition: background-color 0.2s;
-    font-size: 1.5rem;
+    font-size: 1.4rem;
 }
 
 /* マウスを乗せた時に少し背景を明るくする（ボタンだと分かりやすくするため） */
