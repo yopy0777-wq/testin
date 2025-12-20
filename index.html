@@ -49,7 +49,11 @@
             <div id="filterContent" class="filter-content">
                 <div class="filter-group">
                     <label for="woodTypeFilter">薪の種類</label>
-                    <input type="text" id="woodTypeFilter" placeholder="例：ナラ、クヌギ">
+                    <select id="woodTypeFilter">
+                        <option value="">すべての種類</option>
+                        <option value="ナラ">ナラ</option>
+                        <option value="カシ">カシ</option>
+                        </select>
                 </div>
                 <div class="filter-group">
                     <label for="searchQuery">キーワード検索</label>
@@ -95,7 +99,17 @@
 
                 <div class="form-group">
                     <label for="woodType">薪の種類 <span class="required">*</span></label>
-                    <input type="text" id="woodType" required placeholder="例：ナラ、クヌギ、スギ">
+                    <select id="woodType" class="form-control">
+                         <option value="">選択してください</option>
+                         <option value="ナラ">ナラ</option>
+                         <option value="カシ">カシ</option>
+                         <option value="クヌギ">クヌギ</option>
+                         <option value="サクラ">サクラ</option>
+                         <option value="スギ">スギ</option>
+                         <option value="ヒノキ">ヒノキ</option>
+                         <option value="不明">不明</option>
+                         <option value="その他">その他</option>
+                     </select>
                 </div>
 
                 <div class="form-group">
