@@ -414,6 +414,8 @@ async function handleSubmit(e) {
     
     const priceInput = document.getElementById('price').value;
     const priceValue = parseInt(priceInput);
+    const locationName = document.getElementById('locationName').value;
+    const notes = document.getElementById('notes').value;
 
     // 入力がある場合に、数値でない、またはマイナスでないかをチェック
     if (priceInput !== "") {
@@ -428,13 +430,13 @@ async function handleSubmit(e) {
         }
     }
     
-    const locationName = document.getElementById('locationName').value;
+    
     if (locationName.length > 40) {
         showToast('場所名は40文字以内で入力してください', 'error');
         return;
     }
     
-    const notes = document.getElementById('notes').value;
+    
     if (notes.length > 100) {
         showToast('備考は100文字以内で入力してください', 'error');
         return;
@@ -514,6 +516,8 @@ async function handleUpdate(e) {
     
     const priceInput = document.getElementById('price').value;
     const priceValue = parseInt(priceInput);
+    const locationName = document.getElementById('locationName').value;
+    const notes = document.getElementById('notes').value;
 
     // 入力がある場合に、数値でない、またはマイナスでないかをチェック
     if (priceInput !== "") {
@@ -534,7 +538,7 @@ async function handleUpdate(e) {
         return;
     }    
     
-    const notes = document.getElementById('notes').value;
+    
     if (notes.length > 100) {
         showToast('備考は100文字以内で入力してください', 'error');
         return;
