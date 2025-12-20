@@ -151,9 +151,21 @@ function initEventListeners() {
     document.getElementById('applyFilter').addEventListener('click', applyFilter);
     document.getElementById('clearFilter').addEventListener('click', clearFilter);
 
-    // リスト開閉
-    document.getElementById('listToggle').addEventListener('click', toggleList);
-    document.querySelector('.list-header').addEventListener('click', toggleList);
+// --- 🟢 リスト開閉のリスナーをここから差し替え ---
+    const listToggleBtn = document.getElementById('listToggle');
+    const listHeader = document.querySelector('.list-header');
+
+    // △ボタンとヘッダー全体、どちらを押しても toggleList が動くようにする
+    [listToggleBtn, listHeader].forEach(el => {
+        if (el) {
+            el.addEventListener('click', (e) => {
+                // △ボタンをクリックした際、親要素（ヘッダー）のイベントも
+                // 同時に発生して「開いてすぐ閉じる」現象を防ぐ
+                e.stopPropagation();
+                toggleList();
+            });
+        }
+    });
 }
 
 // ============================================
