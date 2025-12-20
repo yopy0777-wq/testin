@@ -763,22 +763,55 @@ form {
 /* ============================================
    住所検索結果
    ============================================ */
+/* --- 検索セクションのレイアウト調整 --- */
+.search-section {
+    background-color: #fcf8f5;
+    padding: 12px;
+    border-radius: 8px;
+    border: 1px solid var(--border-color);
+}
+
+.search-input-group {
+    display: flex;
+    gap: 8px;
+    margin-top: 5px;
+}
+
+.search-input-group .form-control {
+    flex: 1; /* 入力欄を広げる */
+}
+
+.search-input-group .btn {
+    white-space: nowrap; /* ボタンの文字を折り返さない */
+}
+
+/* 検索結果リスト */
 .search-results-list {
     background: white;
     border: 1px solid var(--border-color);
     border-radius: 4px;
     margin-top: 5px;
-    max-height: 200px;
+    max-height: 150px;
     overflow-y: auto;
+    width: 100%;
+    z-index: 1001;
 }
 
 .search-result-item {
-    padding: 10px;
+    padding: 8px 12px;
     border-bottom: 1px solid #eee;
     cursor: pointer;
-    font-size: 0.9rem;
+    font-size: 0.85rem;
 }
 
 .search-result-item:hover {
     background-color: var(--bg-light);
+}
+
+/* 補助テキスト */
+.text-secondary {
+    font-size: 0.75rem;
+    color: var(--text-secondary);
+    display: block;
+    margin-top: 4px;
 }

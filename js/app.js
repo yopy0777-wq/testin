@@ -182,7 +182,14 @@ function initEventListeners() {
                 });
             });
         }
-
+        
+        
+        // 🟢 検索ボタンのリスナーを追加
+    document.getElementById('execSearchBtn').addEventListener('click', searchAddress);
+    const execSearchBtn = document.getElementById('execSearchBtn');
+    if (execSearchBtn) {
+        execSearchBtn.addEventListener('click', searchAddress);
+    }
 }
 
 // ============================================
@@ -780,7 +787,6 @@ async function getCurrentLocation() {
 // ============================================
 // 住所検索機能 (searchAddress 関数) 
 // ============================================
-
 async function searchAddress() {
     const query = document.getElementById('placeSearch').value;
     if (!query) return;
