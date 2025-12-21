@@ -32,12 +32,20 @@ html, body {
     overflow: hidden; /* 全体のスクロールを禁止 */
 }
 
-body {
+/*body {
     font-family: 'Noto Sans JP', sans-serif;
     color: var(--text-primary);
     background-color: var(--bg-light);
     display: flex;
     flex-direction: column; /* ヘッダーと地図を縦に並べる */
+}*/
+body {
+    /* 100vh の代わりに計算した高さを適用 */
+    height: 100vh;
+    height: calc(var(--vh, 1vh) * 100);
+    overflow: hidden;
+    position: fixed; /* iPhoneの全体スクロールを完全に殺す */
+    width: 100%;
 }
 
 .container {
@@ -313,36 +321,45 @@ main {
    ============================================ */
 .list-panel {
     position: fixed;
-    bottom: 0;
+    /* bottom: 0 ではなく top を基準に配置し、画面下部に固定する */
+    top: 100%; 
     left: 0;
     right: 0;
-    z-index: 2000; /* 地図より確実に上に */
+    z-index: 2000;
     background: var(--bg-white);
     border-radius: 20px 20px 0 0;
     box-shadow: 0 -4px 20px rgba(0,0,0,0.2);
     
-    /* 🔴 高さを固定 */
+    /* 高さを固定（iPhoneのバーに影響されない数値） */
     height: 400px; 
     
-    /* 🔴 アニメーションは「位置（bottom）」で制御 */
-    transition: bottom 0.3s ease;
-    bottom: 0; /* 開いている時 */
+    /* 🔴 基準を「画面の下端」に合わせる */
+    margin-top: -400px; 
+    
+    transition: transform 0.3s cubic-bezier(0.25, 0.1, 0.25, 1.0);
+    transform: translateY(0); /* 表示状態 */
+    
+    /* iPhoneでのスクロールガタつき防止 */
+    will-change: transform;
 }
 
+/* 🔴 閉じている時：ヘッダーの60pxだけ残して、残り340px分を下に下げる */
 .list-panel.collapsed {
-    bottom: -340px; /* 400 - 60 = 340px 下げることで、60pxだけ画面に残る */
+    transform: translateY(340px);
 }
 
 .list-header {
-    height: 60px; /* ヘッダーの高さを固定 */
+    height: 60px;
     padding: 0 1.5rem;
     display: flex;
     align-items: center;
     justify-content: space-between;
     border-bottom: 1px solid var(--border-color);
-    cursor: pointer;
     background: var(--bg-white);
     border-radius: 20px 20px 0 0;
+    /* タップ反応を良くする */
+    user-select: none;
+    -webkit-tap-highlight-color: transparent;
 }
 
 .list-header h2 {

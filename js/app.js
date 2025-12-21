@@ -18,6 +18,8 @@ document.addEventListener('DOMContentLoaded', () => {
     initServiceWorker();
     initEventListeners();
     loadLocations();
+    
+    setFillHeight();
 });
 
 // ============================================
@@ -183,7 +185,6 @@ function initEventListeners() {
             });
         }
         
-        
         // 🟢 検索ボタンのリスナーを追加
     document.getElementById('execSearchBtn').addEventListener('click', searchAddress);
     const execSearchBtn = document.getElementById('execSearchBtn');
@@ -191,9 +192,6 @@ function initEventListeners() {
         execSearchBtn.addEventListener('click', searchAddress);
     }
 }
-
-
-      // app.js の initEventListeners 内に追加
 
       // ヘルプモーダルを開く
       document.getElementById('helpBtn').addEventListener('click', () => {
@@ -950,3 +948,14 @@ function showToast(message, type = 'success') {
         toast.classList.remove('active');
     }, 3000);
 }
+
+// ============================================
+// 回転対策
+// ============================================
+function setFillHeight() {
+    const vh = window.innerHeight * 0.01;
+    document.documentElement.style.setProperty('--vh', `${vh}px`);
+}
+
+// 画面がリサイズ（または回転）されたら再計算する
+window.addEventListener('resize', setFillHeight);
