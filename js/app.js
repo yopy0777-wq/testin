@@ -952,10 +952,14 @@ function showToast(message, type = 'success') {
 // ============================================
 // 回転対策
 // ============================================
+// app.js の末尾（685行目付近）
+
 function setFillHeight() {
+    // ツールバーを除いた「本当の表示領域」を計算
     const vh = window.innerHeight * 0.01;
     document.documentElement.style.setProperty('--vh', `${vh}px`);
 }
 
-// 画面がリサイズ（または回転）されたら再計算する
+// 画面サイズ変更時（メニューバーが出入りした時）に再計算
 window.addEventListener('resize', setFillHeight);
+window.addEventListener('orientationchange', setFillHeight);
