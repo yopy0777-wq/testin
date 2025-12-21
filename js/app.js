@@ -192,6 +192,24 @@ function initEventListeners() {
     }
 }
 
+
+      // app.js の initEventListeners 内に追加
+
+      // ヘルプモーダルを開く
+      document.getElementById('helpBtn').addEventListener('click', () => {
+          document.getElementById('helpModal').classList.add('active');
+          document.body.style.overflow = 'hidden';
+      });
+
+      // ヘルプモーダルを閉じる
+      const closeHelp = () => {
+          document.getElementById('helpModal').classList.remove('active');
+          document.body.style.overflow = '';
+      };
+
+      document.getElementById('closeHelpBtn').addEventListener('click', closeHelp);
+      document.getElementById('closeHelpBtnLower').addEventListener('click', closeHelp);
+
 // ============================================
 // データ読み込み
 // ============================================

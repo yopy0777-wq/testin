@@ -37,6 +37,9 @@
               <button id="addLocationBtn" class="btn btn-primary">
                   <i class="fas fa-plus"></i> 新規登録
               </button>
+              <button id="helpBtn" class="btn btn-help" title="使い方の説明">
+                  <i class="fas fa-question-circle"></i>
+              </button>
            </div>
         </div>
     </header>
@@ -204,6 +207,36 @@
             <div id="detailContent"></div>
         </div>
     </div>
+
+     <!-- ヘルプモーダル -->
+     <div id="helpModal" class="modal">
+         <div class="modal-content help-content">
+             <div class="modal-header">
+                 <h2><i class="fas fa-book-open"></i> 薪マップの使い方</h2>
+                 <button class="close-btn" id="closeHelpBtn">
+                     <i class="fas fa-times"></i>
+                 </button>
+             </div>
+             <div class="help-body">
+                 <div class="help-step">
+                     <span class="step-number">1</span>
+                     <p><strong>場所を探す：</strong> 地図を動かしたり、検索窓から薪の販売場所を探せます。</p>
+                 </div>
+                 <div class="help-step">
+                     <span class="step-number">2</span>
+                     <p><strong>詳細を見る：</strong> 地図上の🪵マークをタップすると、価格や薪の種類を確認できます。</p>
+                 </div>
+                 <div class="help-step">
+                     <span class="step-number">3</span>
+                     <p><strong>場所を教える：</strong> 「新規登録」から新しい販売場所を地図に追加して共有しましょう！</p>
+                 </div>
+                 <div class="help-image-placeholder">
+                     <i class="fas fa-map-marked-alt"></i>
+                 </div>
+             </div>
+             <button class="btn btn-primary w-100" id="closeHelpBtnLower">分かった！</button>
+         </div>
+     </div>
 
     <!-- ローディング -->
     <div id="loading" class="loading">

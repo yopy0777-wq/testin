@@ -846,3 +846,67 @@ form {
     border-top: 1px solid #eee;
     margin: 15px 0;
 }
+
+
+/* ============================================
+   ヘルプ
+   ============================================ */
+
+.header-actions {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.btn-help {
+    background: none;
+    border: none;
+    color: white;
+    font-size: 1.5rem;
+    cursor: pointer;
+    transition: transform 0.2s;
+    padding: 5px;
+}
+
+.btn-help:hover {
+    transform: scale(1.1);
+}
+
+/* ヘルプ内容のスタイル */
+.help-content {
+    max-width: 500px;
+}
+
+.help-body {
+    padding: 10px 0;
+}
+
+.help-step {
+    display: flex;
+    align-items: flex-start;
+    gap: 15px;
+    margin-bottom: 20px;
+}
+
+.step-number {
+    background: var(--primary-color);
+    color: white;
+    width: 28px;
+    height: 28px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    font-weight: bold;
+}
+
+.help-image-placeholder {
+    text-align: center;
+    font-size: 4rem;
+    color: #eee;
+    margin: 20px 0;
+    padding: 20px;
+    background: #fafafa;
+    border-radius: 10px;
+}
