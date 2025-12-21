@@ -878,7 +878,8 @@ form {
 }
 
 .help-body {
-    padding: 10px 0;
+    padding: 10px 35px 20px 35px; 
+    box-sizing: border-box;
 }
 
 .help-step {
@@ -899,7 +900,6 @@ form {
     justify-content: center;
     flex-shrink: 0;
     font-weight: bold;
-    padding: 5px;
 }
 
 .help-image-placeholder {
