@@ -5,6 +5,8 @@ let map;
 let markers = [];
 let allLocations = [];
 let isSelectingLocation = false; //  NEW: マップ選択モードを追跡するフラグ
+let currentDetailGroup = []; // 重なっているデータのリスト
+let currentDetailIndex = 0;   // 今何番目を見ているか
 const TABLE_NAME = 'firewood_locations';
 
 const SUPABASE_URL = 'https://plmbomjfhfzpucrexqpp.supabase.co'; // ステップ1-3で確認
@@ -332,7 +334,7 @@ function displayLocationsList(locations) {
 // ============================================
 // 詳細表示
 // ============================================
-window.showDetail = async function(locationId) {
+/*window.showDetail = async function(locationId) {
     showLoading();
     
     try {
@@ -445,7 +447,116 @@ window.showDetail = async function(locationId) {
         hideLoading();
     }
 };
+*/
 
+window.showDetail = async function(locationId) {
+    showLoading();
+    
+    try {
+        // 1. まずクリックされたデータの詳細を取得
+        const url = `${SUPABASE_URL}/rest/v1/${TABLE_NAME}?id=eq.${locationId}&select=*`;
+        const response = await fetch(url, {
+             headers: {
+                'apikey': SUPABASE_ANON_KEY,
+                'Authorization': `Bearer ${SUPABASE_ANON_KEY}` 
+            }
+        });
+        
+        const result = await response.json();
+        const baseLocation = result[0];
+        if (!baseLocation) throw new Error("Location not found");
+
+        // 🟢 2. 同じ座標にあるデータを allLocations からすべて抽出
+        currentDetailGroup = allLocations.filter(loc => 
+            loc.latitude === baseLocation.latitude && 
+            loc.longitude === baseLocation.longitude
+        );
+
+        // 3. 今クリックしたデータがグループの何番目にあるか探す
+        currentDetailIndex = currentDetailGroup.findIndex(loc => loc.id === locationId);
+        if (currentDetailIndex === -1) currentDetailIndex = 0;
+
+        // 4. 詳細画面の描画を実行
+        renderDetailModal();
+        openDetailModal();
+        
+    } catch (error) {
+        console.error('詳細取得エラー:', error);
+        showToast('詳細情報の取得に失敗しました', 'error');
+    } finally {
+        hideLoading();
+    }
+};
+
+// 🟢 5. 詳細モーダルの内容を描画する専用関数
+function renderDetailModal() {
+    const location = currentDetailGroup[currentDetailIndex];
+    const detailContent = document.getElementById('detailContent');
+    
+    const lastUpdate = location.updated_at 
+        ? new Date(location.updated_at).toLocaleDateString('ja-JP', { year: 'numeric', month: '2-digit', day: '2-digit' }) 
+        : '不明';
+    
+    // ページング情報の作成（複数ある場合のみ表示）
+    const paginationHtml = currentDetailGroup.length > 1 ? `
+        <div class="detail-pagination" style="display: flex; align-items: center; justify-content: center; gap: 20px; margin-bottom: 20px; background: #f8f8f8; padding: 10px; border-radius: 10px;">
+            <button class="btn-nav" onclick="changeDetailIndex(-1)" ${currentDetailIndex === 0 ? 'disabled' : ''} style="background: none; border: none; font-size: 1.2rem; cursor: pointer; color: ${currentDetailIndex === 0 ? '#ccc' : '#8B4513'};">
+                <i class="fas fa-chevron-left"></i>
+            </button>
+            <span style="font-weight: bold;">${currentDetailIndex + 1} / ${currentDetailGroup.length} 件目</span>
+            <button class="btn-nav" onclick="changeDetailIndex(1)" ${currentDetailIndex === currentDetailGroup.length - 1 ? 'disabled' : ''} style="background: none; border: none; font-size: 1.2rem; cursor: pointer; color: ${currentDetailIndex === currentDetailGroup.length - 1 ? '#ccc' : '#8B4513'};">
+                <i class="fas fa-chevron-right"></i>
+            </button>
+        </div>
+    ` : '';
+
+    detailContent.innerHTML = `
+        ${paginationHtml}
+        <div class="detail-section">
+            <h3><i class="fas fa-store"></i> 場所名</h3>
+            <p>${location.location_name || '未設定'}</p>
+        </div>
+        <div class="detail-section">
+            <h3><i class="fas fa-tree"></i> 薪の種類</h3>
+            <p>${location.wood_type || '未設定'}</p>
+        </div>
+        <div class="detail-section">
+            <h3><i class="fas fa-yen-sign"></i> 価格</h3>
+            <p>${location.price || '未設定'}円</p>
+        </div>
+        <div class="detail-section">
+            <h3><i class="fas fa-map"></i> 位置情報</h3>
+            <p>緯度: ${location.latitude}, 経度: ${location.longitude}</p>
+        </div>
+        ${location.notes ? `
+            <div class="detail-section">
+                <h3><i class="fas fa-sticky-note"></i> 備考</h3>
+                <p style="white-space: pre-wrap;">${location.notes}</p>
+            </div>
+        ` : ''}
+        <div class="detail-section detail-actions"> 
+            <button class="btn btn-primary" onclick="focusOnMap(${location.latitude}, ${location.longitude})">
+                <i class="fas fa-map-marked-alt"></i> 地図で確認
+            </button>
+            <a href="https://www.google.com/maps/search/?api=1&query=${location.latitude},${location.longitude}" target="_blank" class="btn btn-outline" style="margin-left: 10px;">
+                <i class="fab fa-google"></i> Googleマップ
+            </a>
+            <button class="btn btn-secondary" onclick="openEditModal('${location.id}')">
+                <i class="fas fa-edit"></i> 編集
+            </button>
+        </div>
+        <div class="detail-section">
+            <h3><i class="fas fa-history"></i> 最終更新日</h3>
+            <p>${lastUpdate}</p>
+        </div>
+    `;
+}
+
+// 🟢 6. ページ切り替え用関数
+window.changeDetailIndex = function(direction) {
+    currentDetailIndex += direction;
+    renderDetailModal();
+};
 // ============================================
 // 地図にフォーカス
 // ============================================

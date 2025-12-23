@@ -948,3 +948,35 @@ form {
     background: #fafafa;
     border-radius: 10px;
 }
+/* ============================================
+   navigation
+   ============================================ */
+.detail-nav {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    background: #f0f0f0;
+    padding: 5px 15px;
+    border-radius: 20px;
+}
+
+.nav-arrow {
+    background: none;
+    border: none;
+    color: var(--primary-color);
+    font-size: 1.2rem;
+    cursor: pointer;
+    padding: 5px;
+}
+
+.nav-arrow:disabled {
+    color: #ccc;
+    cursor: not-allowed;
+}
+
+#detailCounter {
+    font-size: 0.9rem;
+    font-weight: bold;
+    min-width: 50px;
+    text-align: center;
+}

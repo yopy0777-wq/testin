@@ -196,7 +196,7 @@
     </div>
 
     <!-- 詳細モーダル -->
-    <div id="detailModal" class="modal">
+   <!-- <div id="detailModal" class="modal">
         <div class="modal-content">
             <div class="modal-header">
                 <h2><i class="fas fa-info-circle"></i> 詳細情報</h2>
@@ -206,7 +206,29 @@
             </div>
             <div id="detailContent"></div>
         </div>
-    </div>
+    </div>-->
+    <div id="detailModal" class="modal">
+    <div class="modal-content">
+        <div class="modal-header">
+            <div class="detail-nav">
+                <button id="prevDetailBtn" class="nav-arrow"><i class="fas fa-chevron-left"></i></button>
+                <span id="detailCounter">1 / 1</span>
+                <button id="nextDetailBtn" class="nav-arrow"><i class="fas fa-chevron-right"></i></button>
+            </div>
+            <button class="close-btn" onclick="closeDetailModal()">
+                <i class="fas fa-times"></i>
+            </button>
+        </div>
+        <div id="detailContent">
+            <h2 id="detailName" class="modal-title"></h2>
+            <div class="detail-info">
+                <p><strong>薪の種類:</strong> <span id="detailWoodType"></span></p>
+                <p><strong>価格:</strong> <span id="detailPrice"></span> 円</p>
+                <p><strong>備考:</strong> <span id="detailNotes"></span></p>
+            </div>
+        </div>
+        </div>
+</div>
 
      <!-- ヘルプモーダル -->
      <div id="helpModal" class="modal">
