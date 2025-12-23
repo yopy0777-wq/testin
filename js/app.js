@@ -139,10 +139,8 @@ function initEventListeners() {
         if (e.target.id === 'detailModal') closeDetailModal();
     });
 
-   // 🟢 新しいボタンのリスナーを追加
+    // マップから選択
     document.getElementById('selectFromMapBtn').addEventListener('click', startMapSelection);
-    
-
 
     // フォーム送信
     document.getElementById('addLocationForm').addEventListener('submit', handleSubmit);
@@ -155,61 +153,75 @@ function initEventListeners() {
     document.getElementById('applyFilter').addEventListener('click', applyFilter);
     document.getElementById('clearFilter').addEventListener('click', clearFilter);
 
-// --- 🟢 リスト開閉のリスナーをここから差し替え ---
+    // リスト開閉
     const listToggleBtn = document.getElementById('listToggle');
     const listHeader = document.querySelector('.list-header');
-
-    // △ボタンとヘッダー全体、どちらを押しても toggleList が動くようにする
     [listToggleBtn, listHeader].forEach(el => {
         if (el) {
             el.addEventListener('click', (e) => {
-                // △ボタンをクリックした際、親要素（ヘッダー）のイベントも
-                // 同時に発生して「開いてすぐ閉じる」現象を防ぐ
                 e.stopPropagation();
                 toggleList();
             });
         }
     });
 
+    // 更新ボタン
     const refreshBtn = document.getElementById('refreshBtn');
-        if (refreshBtn) {
-            refreshBtn.addEventListener('click', () => {
-                // アイコンを回転させる演出（任意）
-                const icon = refreshBtn.querySelector('i');
-                icon.classList.add('fa-spin');
-                
-                // データの再読み込み
-                loadLocations().finally(() => {
-                    // 読み込み完了後に回転を止める（少し遅らせると動いた感が出ます）
-                    setTimeout(() => icon.classList.remove('fa-spin'), 500);
-                    showToast('情報を更新しました');
-                });
+    if (refreshBtn) {
+        refreshBtn.addEventListener('click', () => {
+            const icon = refreshBtn.querySelector('i');
+            icon.classList.add('fa-spin');
+            loadLocations().finally(() => {
+                setTimeout(() => icon.classList.remove('fa-spin'), 500);
+                showToast('情報を更新しました');
             });
-        }
+        });
+    }
         
-        // 🟢 検索ボタンのリスナーを追加
-    document.getElementById('execSearchBtn').addEventListener('click', searchAddress);
+    // 検索ボタン
     const execSearchBtn = document.getElementById('execSearchBtn');
     if (execSearchBtn) {
         execSearchBtn.addEventListener('click', searchAddress);
     }
-}
 
-      // ヘルプモーダルを開く
-      document.getElementById('helpBtn').addEventListener('click', () => {
-          document.getElementById('helpModal').classList.add('active');
-          document.body.style.overflow = 'hidden';
-      });
+    // --- 🟢 ここから下が閉じカッコの外に出ていたので中に戻しました ---
 
-      // ヘルプモーダルを閉じる
-      const closeHelp = () => {
-          document.getElementById('helpModal').classList.remove('active');
-          document.body.style.overflow = '';
-      };
+    // ヘルプモーダルを開く
+    const helpBtn = document.getElementById('helpBtn');
+    if (helpBtn) {
+        helpBtn.addEventListener('click', () => {
+            document.getElementById('helpModal').classList.add('active');
+            document.body.style.overflow = 'hidden';
+        });
+    }
 
-      document.getElementById('closeHelpBtn').addEventListener('click', closeHelp);
-      document.getElementById('closeHelpBtnLower').addEventListener('click', closeHelp);
+    // ヘルプモーダルを閉じる
+    const closeHelp = () => {
+        document.getElementById('helpModal').classList.remove('active');
+        document.body.style.overflow = '';
+    };
 
+    const closeHelpBtn = document.getElementById('closeHelpBtn');
+    const closeHelpBtnLower = document.getElementById('closeHelpBtnLower');
+    if (closeHelpBtn) closeHelpBtn.addEventListener('click', closeHelp);
+    if (closeHelpBtnLower) closeHelpBtnLower.addEventListener('click', closeHelp);
+
+    // 🟢 追加：詳細スライドボタンのリスナーを安全に追加
+    const prevBtn = document.getElementById('prevDetailBtn');
+    const nextBtn = document.getElementById('nextDetailBtn');
+    if (prevBtn) prevBtn.addEventListener('click', () => {
+        if (currentDetailIndex > 0) {
+            currentDetailIndex--;
+            renderDetailModal();
+        }
+    });
+    if (nextBtn) nextBtn.addEventListener('click', () => {
+        if (currentDetailIndex < currentDetailGroup.length - 1) {
+            currentDetailIndex++;
+            renderDetailModal();
+        }
+    });
+} // 🔴 ここが initEventListeners の正しい閉じ位置です
 // ============================================
 // データ読み込み
 // ============================================
