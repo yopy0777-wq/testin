@@ -343,7 +343,8 @@ function displayLocationsOnMap(locations) {
                 className: 'custom-marker',
                 html: '<i class="fas fa-fire"></i>',
                 iconSize: [40, 40]
-            })
+            }),
+            id: first.id
         });
 
         // ポップアップの内容を生成（複数ある場合はリスト表示）
@@ -385,20 +386,18 @@ function displayLocationsOnMap(locations) {
 function displayLocationsList(locations) {
     const listContainer = document.getElementById('locationList');
     
-    
-    
     if (locations.length === 0) {
         listContainer.innerHTML = `
             <div class="empty-state">
                 <i class="fas fa-map-marker-alt"></i>
-                <p>登録された薪の販売場所がありません</p>
+                <p>この表示範囲内に薪の販売場所はありません</p>
             </div>
         `;
         return;
     }
 
     listContainer.innerHTML = locations.map(location => `
-        <div class="location-card" onclick="showDetail('${location.id}')">
+        <div class="location-card" onclick="focusOnMarker('${location.id}', ${location.latitude}, ${location.longitude})">
             <div class="location-card-header">
                 <div class="location-card-title">${location.location_name || '名称未設定'}</div>
             </div>
@@ -411,7 +410,25 @@ function displayLocationsList(locations) {
     `).join('');
 }
 
+// ============================================
+// 一覧をクリックした時に地図を移動してピンを開く関数
+// ============================================
+function focusOnMarker(id, lat, lng) {
+    // 1. 地図をその場所へスムーズに移動
+    map.flyTo([lat, lng], 15, {
+        duration: 1.0 // 1秒かけて移動
+    });
 
+    // 2. 移動が終わる頃にポップアップを開く
+    setTimeout(() => {
+        // 全マーカーの中から、クリックされたIDを持つものを探す
+        const targetMarker = markers.find(m => m.options.id === id);
+        if (targetMarker) {
+            // クラスター内に隠れていても、自動で展開してポップアップを開いてくれる
+            targetMarker.openPopup();
+        }
+    }, 1100);
+}
 // ============================================
 // 現在の地図の範囲内にある場所だけをリストに表示する関数
 // ============================================
