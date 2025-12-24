@@ -368,6 +368,8 @@ main {
 }
 
 .list-header {
+    position: relative;
+    z-index: 100;
     height: 60px;
     padding: 0 1.5rem;
     display: flex;
@@ -382,6 +384,7 @@ main {
 }
 
 .list-content {
+    z-index: 1;
     padding: 1rem;
     overflow-y: auto;
     /* ヘッダー分を引いた高さ */
