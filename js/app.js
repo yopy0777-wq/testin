@@ -1084,3 +1084,15 @@ window.addEventListener('orientationchange', setFillHeight);
 
 // 初期化時にも実行
 setFillHeight();
+
+// ============================================
+// 一覧パネル 開閉制御（iPhone対応）
+// ============================================
+const listPanel = document.getElementById('listPanel');
+const listToggle = document.getElementById('listToggle');
+
+if (listPanel && listToggle) {
+    listToggle.addEventListener('click', () => {
+        listPanel.classList.toggle('open');
+    });
+}

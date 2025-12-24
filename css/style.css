@@ -339,28 +339,28 @@ main {
    ============================================ */
 .list-panel {
     position: fixed;
-    /* bottom ではなく top を使い、画面の「下端」を基準点にします */
-    top: 100%; 
     left: 0;
     right: 0;
-    z-index: 2000;
+
+    /* 🔴 iOSでも狂わない下基準 */
+    bottom: 0;
+    padding-bottom: env(safe-area-inset-bottom);
+
+    height: 400px;
     background: var(--bg-white);
     border-radius: 20px 20px 0 0;
     box-shadow: 0 -4px 16px rgba(0,0,0,0.15);
-    
-    /* 高さは400px固定（vhは使いません） */
-    height: 400px;
-    
-    /* 🔴 ここが重要：上端を「画面の下端」に置いた後、自分の高さ分だけ上に持ち上げる */
-    margin-top: -400px; 
+    z-index: 2000;
 
-    /* iPhoneのホームバー用の余白 */
-    padding-bottom: env(safe-area-inset-bottom);
-    
-    transition: transform 0.3s cubic-bezier(0.25, 0.1, 0.25, 1.0);
-    /* 初期状態：表示 */
+    /* 初期状態：閉じている */
+    transform: translateY(340px);
+    transition: transform 0.3s ease;
+}
+
+.list-panel.open {
     transform: translateY(0);
 }
+
 
 /* 🔴 閉じている時：ヘッダーの60pxだけ残して340px分を下に下げる */
 .list-panel.collapsed {
