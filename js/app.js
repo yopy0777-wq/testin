@@ -1089,12 +1089,11 @@ setFillHeight();
 // ============================================
 // 一覧パネル 開閉制御（iPhone対応）
 // ============================================
-const listPanel  = document.getElementById('listPanel');
-const listHeader = document.getElementById('listHeader');
+const listPanel = document.getElementById('listPanel');
+const listToggle = document.getElementById('listToggle');
 
-if (listPanel && listHeader) {
-    listHeader.addEventListener('click', () => {
+if (listPanel && listToggle) {
+    listToggle.addEventListener('click', () => {
         listPanel.classList.toggle('open');
     });
 }
-
