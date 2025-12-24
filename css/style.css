@@ -740,11 +740,13 @@ form {
     }
 
     .list-panel {
-        max-height: 400px;
+        height: 400px;
     }
 
     .list-content {
-        max-height: calc(40vh - 80px);
+        height: 340px;      /* 400 - ヘッダー60 */
+        overflow-y: auto;
+        -webkit-overflow-scrolling: touch;
     }
 
     .form-row {
