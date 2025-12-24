@@ -1002,12 +1002,13 @@ function clearFilter() {
     showToast('フィルターをクリアしました', 'success');
 }
 
+/*
 // ============================================
 // リスト開閉
 // ============================================
 function toggleList() {
     document.getElementById('listPanel').classList.toggle('collapsed');
-}
+}*/
 
 // ============================================
 // モーダル操作
@@ -1085,7 +1086,6 @@ window.addEventListener('orientationchange', setFillHeight);
 // 初期化時にも実行
 setFillHeight();
 
-/*
 // ============================================
 // 一覧パネル 開閉制御（iPhone対応）
 // ============================================
@@ -1097,4 +1097,3 @@ if (listPanel && listToggle) {
         listPanel.classList.toggle('open');
     });
 }
-*/
