@@ -405,8 +405,8 @@ main {
 }
 
 .list-toggle {
-    /*background: none;
-    border: none;*/
+    background: none;
+    border: none;
     font-size: 1.5rem;
     color: var(--text-secondary);
     cursor: pointer;
