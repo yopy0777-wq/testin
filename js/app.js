@@ -163,19 +163,12 @@ function initEventListeners() {
 
 // --- 🟢 リスト開閉のリスナーをここから差し替え ---
     const listToggleBtn = document.getElementById('listToggle');
-    const listHeader = document.querySelector('.list-header');
-
-    // △ボタンとヘッダー全体、どちらを押しても toggleList が動くようにする
-    [listToggleBtn, listHeader].forEach(el => {
-        if (el) {
-            el.addEventListener('click', (e) => {
-                // △ボタンをクリックした際、親要素（ヘッダー）のイベントも
-                // 同時に発生して「開いてすぐ閉じる」現象を防ぐ
-                e.stopPropagation();
-                toggleList();
-            });
-        }
+const listHeader = document.querySelector('.list-header');
+if (listHeader) {
+    listHeader.addEventListener('click', () => {
+        toggleList();
     });
+}
 
     const refreshBtn = document.getElementById('refreshBtn');
         if (refreshBtn) {
