@@ -207,7 +207,7 @@ main {
    地図
    ============================================ */
 #map {
-    flex: 1;
+    height: calc(100vh - 70px);
     width: 100%;
     position: relative;
 }
