@@ -78,11 +78,14 @@ header {
     left: 0;
     right: 0;
     z-index: 1000;
+}
 
+header .container {
     display: flex;
     align-items: center;              /* 上下中央 */
     justify-content: space-between;   /* 左右に分ける */
-    padding: 0 1rem; 
+    height: 100%;
+    padding: 0 1rem;
 }
 
 header h1 {
