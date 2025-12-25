@@ -68,19 +68,21 @@ body {
    ヘッダー
    ============================================ */
 header {
-    flex-shrink: 0; /* ヘッダーが潰れないようにする */
+    flex-shrink: 0;
     height: 60px;
-    /*background-color: var(--primary-color);*/
     background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
     color: white;
-    padding: 0 1rem;
     box-shadow: var(--shadow);
     position: fixed;
     top: 0;
     left: 0;
     right: 0;
     z-index: 1000;
+
     display: flex;
+    align-items: center;              /* 上下中央 */
+    justify-content: space-between;   /* 左右に分ける */
+    padding: 0 1rem; 
 }
 
 header h1 {
