@@ -390,7 +390,7 @@ main {
 /* 4. ズームボタン自体の位置を上げる（現在地ボタンの上に持っていく） */
 .leaflet-bottom.leaflet-right {
     /* 現在地ボタン(44px) + 下余白(40px) + 隙間(10px) = 94px */
-    bottom: 50px !important; 
+    bottom: 30px !important; 
     right: 10px !important;
 }
 
