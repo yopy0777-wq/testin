@@ -5,7 +5,7 @@ let map;
 let markers = [];
 let allLocations = [];
 let isSelectingLocation = false; //  NEW: マップ選択モードを追跡するフラグ
-let isListCollapsed = ture;
+let isListCollapsed = true;
 let markerClusterGroup;
 
 const TABLE_NAME = 'firewood_locations';
