@@ -243,14 +243,13 @@ locateBtn.addEventListener('click', () => {
             map.setView(latlng, 15);
 
             // 現在地に青い丸などのマーカーを置く場合
-            L.circleMarker(latlng, {
-                radius: 8,
-                fillColor: '#007bff',
-                color: '#fff',
-                weight: 2,
-                opacity: 1,
-                fillOpacity: 0.8
-            }).addTo(map).bindPopup("現在地").openPopup();
+            L.marker([lat, lng], {
+    icon: L.divIcon({
+        className: 'current-location-marker',
+        html: '<div style="background: #2196F3; border: 3px solid white; border-radius: 50%; width: 20px; height: 20px; box-shadow: 0 2px 8px rgba(0,0,0,0.3);"></div>',
+        iconSize: [20, 20]
+    })
+}).addTo(map);
 
             hideLoading();
             showToast('現在地を取得しました');
