@@ -343,29 +343,37 @@ main {
 /* ============================================
    現在地ボタン
    ============================================ */
+/* style.css */
+
 .locate-btn {
-    position: absolute;
-    top: 60px; /* ズームボタンやフィルターボタンと被らない高さに調整 */
-    left: 10px;
-    z-index: 1000;
+    position: fixed; /* absoluteからfixedに変更して画面に対して固定 */
+    /* 下から数えて、一覧パネルのヘッダーより少し上の位置に配置 */
+    bottom: 80px; 
+    right: 20px;
+    z-index: 1050; /* 一覧パネル(1001)より上に表示させる */
+    
     background: var(--bg-white);
-    border: 2px solid rgba(0,0,0,0.2);
-    border-radius: 50%; /* 丸いボタンにする */
-    width: 34px;
-    height: 34px;
+    border: none !important;
+    border-radius: 50% !important; /* 正円にするとより「現在地ボタン」らしくなります */
+    width: 50px !important;  /* 押しやすいように少し大きく */
+    height: 50px !important;
     display: flex;
     align-items: center;
     justify-content: center;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.2) !important;
     cursor: pointer;
+    transition: all 0.2s ease;
 }
 
+/* アイコンの色とサイズ */
 .locate-btn i {
-    font-size: 16px;
-    color: #444;
+    font-size: 20px;
+    color: var(--secondary-color); /* オレンジ色系にして目立たせる */
 }
 
-.locate-btn.active i {
-    color: #007bff; /* 取得中に色を変えるなどの演出用 */
+/* 押した時のアニメーション */
+.locate-btn:active {
+    transform: scale(0.9);
 }
 
 /* ============================================
