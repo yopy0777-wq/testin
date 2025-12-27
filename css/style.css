@@ -371,7 +371,7 @@ main {
 .locate-btn {
     position: fixed;
     /* ズームボタンが右下にあるので、それより下、かつパネルより上の位置 */
-    bottom: 40px; 
+    bottom: 94px; 
     right: 12px;
     z-index: 1050;
     
@@ -390,7 +390,7 @@ main {
 /* 4. ズームボタン自体の位置を上げる（現在地ボタンの上に持っていく） */
 .leaflet-bottom.leaflet-right {
     /* 現在地ボタン(44px) + 下余白(40px) + 隙間(10px) = 94px */
-    bottom: 94px !important; 
+    bottom: 40px !important; 
     right: 12px !important;
 }
 
