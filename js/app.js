@@ -119,7 +119,7 @@ function initMap() {
                         html: '<div style="background: #2196F3; border: 3px solid white; border-radius: 50%; width: 20px; height: 20px; box-shadow: 0 2px 8px rgba(0,0,0,0.3);"></div>',
                         iconSize: [20, 20]
                     })
-                }).addTo(map).bindPopup('現在地');
+                }).addTo(map);
             },
             error => {
                 console.log('位置情報取得エラー:', error);
@@ -242,14 +242,7 @@ locateBtn.addEventListener('click', () => {
             // 地図を現在地に移動（ズームレベル15程度が見やすいです）
             map.setView(latlng, 15);
 
-            // 現在地に青い丸などのマーカーを置く場合
-            L.marker([lat, lng], {
-    icon: L.divIcon({
-        className: 'current-location-marker',
-        html: '<div style="background: #2196F3; border: 3px solid white; border-radius: 50%; width: 20px; height: 20px; box-shadow: 0 2px 8px rgba(0,0,0,0.3);"></div>',
-        iconSize: [20, 20]
-    })
-}).addTo(map);
+            
 
             hideLoading();
             showToast('現在地を取得しました');
