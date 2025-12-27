@@ -58,8 +58,13 @@ function initMap() {
     map = L.map('map', {
         worldCopyJump: false, // 地図の無限ラップ（左右の繰り返し）を無効にする (念のため維持)
         maxBounds: bounds,      // 地図のドラッグ可能範囲を地球全体に制限
-        maxBoundsViscosity: 1.0 // 境界線でぴったり止まるように粘性を設定
+        maxBoundsViscosity: 1.0,
+        zoomControl: false
     }).setView([defaultLat, defaultLng], defaultZoom);
+
+    L.control.zoom({
+        position: 'bottomright'
+    }).addTo(map);
 
 // 🟢 地図の移動やズームが終わった時に実行
     map.on('moveend', () => {
@@ -122,15 +127,6 @@ function initMap() {
         );
     }
 }
-
-map = L.map('map', {
-    zoomControl: false // 一旦標準の左上ボタンを消す
-}).setView([35.6812, 139.7671], 13);
-
-// 右下に作り直す
-L.control.zoom({
-    position: 'bottomright'
-}).addTo(map);
 
 // ============================================
 // イベントリスナー初期化
