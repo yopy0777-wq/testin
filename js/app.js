@@ -48,13 +48,13 @@ function initMap() {
     const defaultLng = 138.0;
     const defaultZoom = 6;
 
-// 🟢 1. 最大境界 (Max Bounds) の定義
+//  1. 最大境界 (Max Bounds) の定義
     // (北端(90), 西端(-180)) と (南端(-90), 東端(180)) を設定し、地球全体をカバー
     const southWest = L.latLng(-90, -180);
     const northEast = L.latLng(90, 180);
     const bounds = L.latLngBounds(southWest, northEast);
 
-    // 🟢 2. L.map() の初期化オプションに maxBounds を追加 (worldCopyJump: false は維持)
+    //  2. L.map() の初期化オプションに maxBounds を追加 (worldCopyJump: false は維持)
     map = L.map('map', {
         worldCopyJump: false, // 地図の無限ラップ（左右の繰り返し）を無効にする (念のため維持)
         maxBounds: bounds,      // 地図のドラッグ可能範囲を地球全体に制限
@@ -66,21 +66,21 @@ function initMap() {
         position: 'bottomright'
     }).addTo(map);
 
-// 🟢 地図の移動やズームが終わった時に実行
+//  地図の移動やズームが終わった時に実行
     map.on('moveend', () => {
         updateListFromMap();
     });
 
 
     // OpenStreetMapタイルレイヤー（無料）
-    // 🟢 3. タイルレイヤーに noWrap: true を追加
+    //  3. タイルレイヤーに noWrap: true を追加
     L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
         attribution: '© OpenStreetMap contributors',
         maxZoom: 19,
         noWrap: true // タイル画像を繰り返さないように設定
     }).addTo(map);
 
-// 🟢 修正：ここでマップクリックリスナーを登録する
+//  修正：ここでマップクリックリスナーを登録する
     map.on('click', async function(e) {
         // マップ選択モードがONの時のみ動作する
         if (isSelectingLocation) {
@@ -150,7 +150,7 @@ function initEventListeners() {
         if (e.target.id === 'detailModal') closeDetailModal();
     });
 
-   // 🟢 新しいボタンのリスナーを追加
+   //  新しいボタンのリスナーを追加
     document.getElementById('selectFromMapBtn').addEventListener('click', startMapSelection);
     
 
@@ -166,7 +166,7 @@ function initEventListeners() {
     document.getElementById('applyFilter').addEventListener('click', applyFilter);
     document.getElementById('clearFilter').addEventListener('click', clearFilter);
 
-// --- 🟢 リスト開閉のリスナーをここから差し替え ---
+// ---  リスト開閉のリスナーをここから差し替え ---
     const listToggleBtn = document.getElementById('listToggle');
     const listHeader = document.querySelector('.list-header');
 
@@ -198,7 +198,7 @@ function initEventListeners() {
             });
         }
         
-        // 🟢 検索ボタンのリスナーを追加
+        //  検索ボタンのリスナーを追加
     document.getElementById('execSearchBtn').addEventListener('click', searchAddress);
     const execSearchBtn = document.getElementById('execSearchBtn');
     if (execSearchBtn) {
@@ -278,7 +278,7 @@ async function loadLocations(filters = {}) {
             // --- 認証キーをヘッダーに追加 ---
             headers: {
                 'apikey': SUPABASE_ANON_KEY,
-                // 🟢 読み込みにも Authorization を追加
+                //  読み込みにも Authorization を追加
                 'Authorization': `Bearer ${SUPABASE_ANON_KEY}`
             }
         });
@@ -324,7 +324,7 @@ function displayLocationsOnMap(locations) {
         zoomToBoundsOnClick: true
     });
 
-    // --- 🟢 同じ座標の場所をグループ化する処理 ---
+    // ---  同じ座標の場所をグループ化する処理 ---
     const locationGroups = {};
     locations.forEach(loc => {
         if (loc.latitude && loc.longitude) {
@@ -336,7 +336,7 @@ function displayLocationsOnMap(locations) {
         }
     });
 
-    // --- 🟢 グループごとにマーカーを作成 ---
+    // ---  グループごとにマーカーを作成 ---
     for (const key in locationGroups) {
         const group = locationGroups[key];
         const first = group[0];
@@ -368,7 +368,12 @@ function displayLocationsOnMap(locations) {
                 </div>
             `;
         });
-        popupHtml += `</div>`;
+        popupHtml += `
+            <hr style="margin: 12px 0 8px; border: 0; border-top: 1px solid #eee;">
+            <button onclick="addAtThisLocation(${first.latitude}, ${first.longitude})" class="btn-copy-add">
+                <i class="fas fa-plus-circle"></i> この場所に追加登録
+            </button>
+        </div>`;
 
         marker.bindPopup(popupHtml);
         markerClusterGroup.addLayer(marker);
@@ -459,10 +464,10 @@ window.showDetail = async function(locationId) {
     showLoading();
     
     try {
-        // 🟢 データを取得するためのURLを構築
+        //  データを取得するためのURLを構築
         const url = `${SUPABASE_URL}/rest/v1/${TABLE_NAME}?id=eq.${locationId}&select=*`;
         
-        // 🟢 Supabaseへの fetch リクエスト
+        //  Supabaseへの fetch リクエスト
         const response = await fetch(url, {
              headers: {
                 'apikey': SUPABASE_ANON_KEY,
@@ -470,7 +475,7 @@ window.showDetail = async function(locationId) {
             }
         });
         
-        // 🟢 レスポンスが成功したかチェック
+        //  レスポンスが成功したかチェック
         if (!response.ok) {
             // サーバーからエラーが返された場合
             const errorBody = await response.text();
@@ -654,7 +659,7 @@ async function handleSubmit(e) {
         location_name: document.getElementById('locationName').value,
         wood_type: document.getElementById('woodType').value,
         //price: document.getElementById('price').value,
-        // 🟢 修正: 価格を数値に変換（NaNはnullまたは0として扱う）
+        //  修正: 価格を数値に変換（NaNはnullまたは0として扱う）
         price: parseInt(document.getElementById('price').value) || null,
         //address: addressValue || '', // 住所の変数を使用
         latitude: latitude,     
@@ -750,7 +755,7 @@ async function handleUpdate(e) {
         return;
     }
 
-    // 🟢 ジオコーディングに必要な値を取得
+    //  ジオコーディングに必要な値を取得
     //const addressValue = document.getElementById('address').value;
     let latValue = document.getElementById('latitude').value;
     let lngValue = document.getElementById('longitude').value;
@@ -776,7 +781,7 @@ async function handleUpdate(e) {
         location_name: document.getElementById('locationName').value,
         wood_type: document.getElementById('woodType').value,
         //price: document.getElementById('price').value,
-        // 🟢 修正: 価格を数値に変換（NaNはnullまたは0として扱う）
+        //  修正: 価格を数値に変換（NaNはnullまたは0として扱う）
         price: parseInt(document.getElementById('price').value) || null,
         //address: addressValue || '',
         latitude: latitude,
@@ -820,14 +825,14 @@ async function handleUpdate(e) {
 // ============================================
 // マップ選択モード制御
 // ============================================
-function startMapSelection() {
+/*function startMapSelection() {
     // 1. モーダルを閉じる
     closeAddModal();
     
     // 2. 選択モードをONにする
     isSelectingLocation = true;
     
-    // 🟢 修正点：マップのサイズを再計算し、再描画を強制する
+    //  修正点：マップのサイズを再計算し、再描画を強制する
     if (map) {
         // 少し遅延させることで、モーダルが完全に閉じてから実行することを保証
         setTimeout(() => {
@@ -839,9 +844,36 @@ function startMapSelection() {
     
     // 3. ユーザーに通知し、マップの操作を促す
     showToast('地図上の登録したい場所をクリックしてください', 'info');
+}*/
+
+function startMapSelection() {
+    closeAddModal();
+    isSelectingLocation = true;
+    
+    // 🟢 修正：Bodyにクラスを追加 [手順3]
+    document.body.classList.add('selecting-mode');
+    
+    if (map) {
+        setTimeout(() => map.invalidateSize(), 50);
+    }
+    showToast('地図上の場所をクリックしてください。ピンの裏も選べます。', 'info');
 }
 
-
+// map.on('click', ...) の中でもモード終了時にクラスを外す
+map.on('click', async function(e) {
+    if (isSelectingLocation) {
+        document.getElementById('latitude').value = e.latlng.lat.toFixed(6);
+        document.getElementById('longitude').value = e.latlng.lng.toFixed(6); 
+        
+        isSelectingLocation = false;
+        // 🟢 修正：クラスを削除
+        document.body.classList.remove('selecting-mode');
+        
+        document.getElementById('addModal').classList.add('active');
+        document.body.style.overflow = 'hidden';
+        showToast(`座標を取得しました`, 'success');
+    }
+});
 
 // ============================================
 // 編集モーダル操作
@@ -869,18 +901,18 @@ window.openEditModal = function(id) {
         form.removeEventListener('submit', handleSubmit); // 古いリスナーを削除
         form.removeEventListener('submit', handleUpdate);
 
-        // 🟢 フォームにIDを一時的に保持
+        //  フォームにIDを一時的に保持
         form.addEventListener('submit', handleUpdate);
         form.dataset.editId = id; 
         
-        // 🟢 handleUpdateを呼び出す新しいリスナーを追加
+        //  handleUpdateを呼び出す新しいリスナーを追加
         //form.addEventListener('submit', handleUpdate); 
 
         // ヘッダーを「編集」に変更
         document.querySelector('#addModal .modal-header h2').textContent = '薪販売場所の編集';
         document.querySelector('#addModal button[type="submit"]').innerHTML = '<i class="fas fa-save"></i> 更新';
         
-        // 🟢 モーダルを開く処理を直接記述（openAddModalを呼ばない）
+        //  モーダルを開く処理を直接記述（openAddModalを呼ばない）
         document.getElementById('addModal').classList.add('active');
         document.body.style.overflow = 'hidden';
         
@@ -1115,3 +1147,13 @@ if (listPanel && listToggle) {
         listPanel.classList.toggle('open');
     });
 }
+
+// ============================================
+// 既存の場所から位置取得
+// ============================================
+window.addAtThisLocation = function(lat, lng) {
+    openAddModal(); // フォームをリセットして開く
+    document.getElementById('latitude').value = lat.toFixed(6);
+    document.getElementById('longitude').value = lng.toFixed(6);
+    showToast('既存の場所から座標を取得しました', 'success');
+};

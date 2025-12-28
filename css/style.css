@@ -1026,3 +1026,38 @@ form {
     background: #fafafa;
     border-radius: 10px;
 }
+
+/* ============================================
+   追加機能：ボタン装飾と選択モード設定
+   ============================================ */
+
+/* 1. ポップアップ内の「ここに追加登録」ボタン */
+.btn-copy-add {
+    background-color: #e67e22 !important; /* 薪をイメージしたオレンジ */
+    color: white !important;
+    border: none !important;
+    border-radius: 6px;
+    padding: 8px;
+    width: 100%;
+    font-size: 13px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+    margin-top: 10px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+.btn-copy-add:hover {
+    background-color: #d35400 !important;
+}
+
+/* 2. 地図から選択モード中のピン透過設定 */
+/* これにより、ピンの真下にある地図をクリックできるようになります */
+body.selecting-mode .leaflet-marker-icon,
+body.selecting-mode .leaflet-marker-shadow,
+body.selecting-mode .leaflet-markercluster {
+    pointer-events: none !important; /* クリックを透過させる */
+    opacity: 0.6 !important;         /* 選択中だとわかるように少し薄くする */
+}
