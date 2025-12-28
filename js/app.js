@@ -702,6 +702,54 @@ async function handleSubmit(e) {
 }
 
 // ============================================
+// 編集モーダル操作
+// ============================================
+window.openEditModal = function(id) {
+    closeDetailModal(); // 詳細モーダルを閉じる
+    showLoading();
+
+    // 編集対象のデータをallLocationsから探す
+    const locationToEdit = allLocations.find(loc => loc.id === id);
+
+    if (locationToEdit) {
+        // フォームにデータをロード
+        document.getElementById('locationName').value = locationToEdit.location_name || '';
+        document.getElementById('woodType').value = locationToEdit.wood_type || '';
+        document.getElementById('price').value = locationToEdit.price || '';
+        //document.getElementById('address').value = locationToEdit.address || '';
+        document.getElementById('latitude').value = locationToEdit.latitude || '';
+        document.getElementById('longitude').value = locationToEdit.longitude || '';
+        //document.getElementById('contact').value = locationToEdit.contact || '';
+        document.getElementById('notes').value = locationToEdit.notes || '';
+
+        // フォーム送信時に実行する処理を、登録 (handleSubmit) から更新 (handleUpdate) に変更
+        const form = document.getElementById('addLocationForm');
+        form.removeEventListener('submit', handleSubmit); // 古いリスナーを削除
+        form.removeEventListener('submit', handleUpdate);
+
+        //  フォームにIDを一時的に保持
+        form.addEventListener('submit', handleUpdate);
+        form.dataset.editId = id; 
+        
+        //  handleUpdateを呼び出す新しいリスナーを追加
+        //form.addEventListener('submit', handleUpdate); 
+
+        // ヘッダーを「編集」に変更
+        document.querySelector('#addModal .modal-header h2').textContent = '薪販売場所の編集';
+        document.querySelector('#addModal button[type="submit"]').innerHTML = '<i class="fas fa-save"></i> 更新';
+        
+        //  モーダルを開く処理を直接記述（openAddModalを呼ばない）
+        document.getElementById('addModal').classList.add('active');
+        document.body.style.overflow = 'hidden';
+        
+        //openAddModal(); // 既存のモーダルを開く
+    } else {
+        showToast('編集対象のデータが見つかりません', 'error');
+    }
+    hideLoading();
+};
+
+// ============================================
 // 手順1: 既存のピンから座標を引き継いで登録画面を開く
 // ============================================
 window.addAtThisLocation = function(lat, lng, name) {
@@ -920,53 +968,7 @@ map.on('click', async function(e) {
     }
 });
 
-// ============================================
-// 編集モーダル操作
-// ============================================
-window.openEditModal = function(id) {
-    closeDetailModal(); // 詳細モーダルを閉じる
-    showLoading();
 
-    // 編集対象のデータをallLocationsから探す
-    const locationToEdit = allLocations.find(loc => loc.id === id);
-
-    if (locationToEdit) {
-        // フォームにデータをロード
-        document.getElementById('locationName').value = locationToEdit.location_name || '';
-        document.getElementById('woodType').value = locationToEdit.wood_type || '';
-        document.getElementById('price').value = locationToEdit.price || '';
-        //document.getElementById('address').value = locationToEdit.address || '';
-        document.getElementById('latitude').value = locationToEdit.latitude || '';
-        document.getElementById('longitude').value = locationToEdit.longitude || '';
-        //document.getElementById('contact').value = locationToEdit.contact || '';
-        document.getElementById('notes').value = locationToEdit.notes || '';
-
-        // フォーム送信時に実行する処理を、登録 (handleSubmit) から更新 (handleUpdate) に変更
-        const form = document.getElementById('addLocationForm');
-        form.removeEventListener('submit', handleSubmit); // 古いリスナーを削除
-        form.removeEventListener('submit', handleUpdate);
-
-        //  フォームにIDを一時的に保持
-        form.addEventListener('submit', handleUpdate);
-        form.dataset.editId = id; 
-        
-        //  handleUpdateを呼び出す新しいリスナーを追加
-        //form.addEventListener('submit', handleUpdate); 
-
-        // ヘッダーを「編集」に変更
-        document.querySelector('#addModal .modal-header h2').textContent = '薪販売場所の編集';
-        document.querySelector('#addModal button[type="submit"]').innerHTML = '<i class="fas fa-save"></i> 更新';
-        
-        //  モーダルを開く処理を直接記述（openAddModalを呼ばない）
-        document.getElementById('addModal').classList.add('active');
-        document.body.style.overflow = 'hidden';
-        
-        //openAddModal(); // 既存のモーダルを開く
-    } else {
-        showToast('編集対象のデータが見つかりません', 'error');
-    }
-    hideLoading();
-};
 
 // ============================================
 // 現在地取得 (getCurrentLocation 関数) 
