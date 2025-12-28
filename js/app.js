@@ -532,7 +532,7 @@ window.showDetail = async function(locationId) {
                 </div>
                 
                 <button class="btn-report-flag" onclick="window.reportLocation('${location.id}')" title="不適切な情報を報告">
-                    <i class="fas fa-flag"></i>
+                    <i class="fas fa-flag"></i> 通報
                 </button>
             </div>
         `;
