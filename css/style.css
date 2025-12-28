@@ -403,7 +403,7 @@ main {
     left: 0;
     right: 0;
 
-    /* 🔴 iOSでも狂わない下基準 */
+    /*  iOSでも狂わない下基準 */
     bottom: 0;
     padding-bottom: env(safe-area-inset-bottom);
 
@@ -423,7 +423,7 @@ main {
 }
 
 
-/* 🔴 閉じている時：ヘッダーの60pxだけ残して340px分を下に下げる */
+/*  閉じている時：ヘッダーの60pxだけ残して340px分を下に下げる */
 .list-panel.collapsed {
     transform: translateY(340px) !important;
 }
@@ -986,6 +986,37 @@ form {
     transform: scale(1.1);
 }
 /* ヘルプモーダル専用のスクロール設定 */
+#helpModal {
+    display: none; /* 通常は非表示 */
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0,0,0,0.6);
+    z-index: 2000;
+
+    /* 🟢 これが真ん中に配置する設定 */
+    justify-content: center; /* 左右中央 */
+    align-items: center;     /* 上下中央 */
+}
+
+/* JavaScriptで active クラスをつけた時に flex に切り替える */
+#helpModal.active {
+    display: flex !important;
+}
+
+/* モーダルの白い箱 */
+.help-content {
+    background: white;
+    width: 90%;
+    max-width: 500px;
+    max-height: 80vh; /* 画面の高さの8割までに制限 */
+    border-radius: 10px;
+    overflow-y: auto; /* 6枚の画像が溢れたら中だけスクロール */
+    position: relative; /* 閉じるボタンの基準にするため */
+}
+
 .help-body {
     max-height: 65vh; /* 画面の高さの65%までに制限 */
     overflow-y: auto; /* 縦スクロールを有効に */
