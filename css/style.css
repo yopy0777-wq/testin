@@ -1067,26 +1067,21 @@ body.selecting-mode .leaflet-markercluster {
 /* ============================================
    通報ボタン
    ============================================ */
-.btn-report-cute {
-    background: #f9f9f9 !important; /* ほんのりグレーの背景 */
+.btn-report-flag {
+    background: none !important;
     border: none !important;
-    color: #ccc !important;         /* 普段は目立たない色 */
-    width: 32px;
-    height: 32px;
-    border-radius: 50%;             /* まんまるにする */
+    padding: 8px !important;
+    color: #ddd !important; /* 最初はとても薄いグレー */
+    cursor: pointer;
+    font-size: 1rem;
+    transition: transform 0.2s ease, color 0.2s ease;
+    line-height: 1;
     display: flex;
     align-items: center;
     justify-content: center;
-    cursor: pointer;
-    transition: all 0.3s ease;
 }
 
-.btn-report-cute:hover {
-    background: #fff5f5 !important; /* ホバーで薄い赤背景 */
-    color: var(--danger-color) !important; /* 旗が赤くなる */
-    transform: scale(1.1);          /* 少し大きくして可愛く動かす */
-}
-
-.btn-report-cute i {
-    font-size: 0.9rem;
+.btn-report-flag:hover {
+    color: #ffb3b3 !important; /* ホバーすると優しい赤色に */
+    transform: scale(1.2) rotate(-10deg); /* 少し大きくして斜めにする（かわいい動き） */
 }
