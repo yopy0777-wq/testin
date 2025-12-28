@@ -159,10 +159,10 @@ function initEventListeners() {
     document.getElementById('applyFilter')?.addEventListener('click', applyFilter);
     document.getElementById('clearFilter')?.addEventListener('click', clearFilter);
 
-   /* // ヘルプボタン（？マーク）
+    // ヘルプボタン（？マーク）
     document.getElementById('helpBtn')?.addEventListener('click', () => {
         window.openHelpModal();
-    });*/
+    });
 
     // リスト開閉
     const listToggleBtn = document.getElementById('listToggle');
@@ -195,18 +195,23 @@ function initEventListeners() {
 // ============================================
 // ヘルプモーダル制御 (HTMLのonclickからも呼べるようにする)
 // ============================================
-      // ヘルプモーダルを開く
-      document.getElementById('helpBtn').addEventListener('click', () => {
-          document.getElementById('helpModal').classList.add('active');
-          document.body.style.overflow = 'hidden';
-      });
+window.openHelpModal = function() {
+    const modal = document.getElementById('helpModal');
+    if (modal) {
+        modal.classList.add('active'); // CSSで .active { display: block; } となっている場合
+        modal.style.display = 'block'; // 念のため直接書き換え
+        document.body.style.overflow = 'hidden';
+    }
+};
 
-      // ヘルプモーダルを閉じる
-      const closeHelp = () => {
-          document.getElementById('helpModal').classList.remove('active');
-          document.body.style.overflow = '';
-      };
-
+window.closeHelpModal = function() {
+    const modal = document.getElementById('helpModal');
+    if (modal) {
+        modal.classList.remove('active');
+        modal.style.display = 'none';
+        document.body.style.overflow = '';
+    }
+};
 
 // 現在地取得の関数を分離（スッキリさせるため）
 function handleLocateBtn() {
@@ -1196,7 +1201,7 @@ if (listPanel && listToggle) {
 // ============================================
 // グローバルに関数を公開（HTMLのonclickエラー対策）
 // ============================================
-/*
+
 window.openHelpModal = function() {
     const modal = document.getElementById('helpModal');
     if (modal) {
@@ -1223,4 +1228,3 @@ if (!window.showDetail) {
         // (もしファイル内に定義があれば、ブラウザが自動で紐付けますが、エラーが出る場合はここを確認してください)
     };
 }
-*/
