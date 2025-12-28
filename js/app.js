@@ -206,7 +206,7 @@ function initEventListeners() {
     }
 }
 
-   /*   // ヘルプモーダルを開く
+      // ヘルプモーダルを開く
       document.getElementById('helpBtn').addEventListener('click', () => {
           document.getElementById('helpModal').classList.add('active');
           document.body.style.overflow = 'hidden';
@@ -220,7 +220,7 @@ function initEventListeners() {
 
       document.getElementById('closeHelpBtn').addEventListener('click', closeHelp);
       document.getElementById('closeHelpBtnLower').addEventListener('click', closeHelp);
-*/
+
 
 // app.js の initEventListeners 内に追加
 const locateBtn = document.getElementById('locateBtn');
