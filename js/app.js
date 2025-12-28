@@ -205,23 +205,8 @@ function initEventListeners() {
         execSearchBtn.addEventListener('click', searchAddress);
     }
 }
-window.openHelpModal = function() {
-    const modal = document.getElementById('helpModal');
-    if (modal) modal.style.display = 'block';
-};
 
-window.closeHelpModal = function() {
-    const modal = document.getElementById('helpModal');
-    if (modal) modal.style.display = 'none';
-};
-
-// モーダルの外側をクリックしたら閉じる設定（お好みで）
-window.onclick = function(event) {
-    const helpModal = document.getElementById('helpModal');
-    if (event.target == helpModal) {
-        helpModal.style.display = "none";
-    }
-   /*   // ヘルプモーダルを開く
+      // ヘルプモーダルを開く
       document.getElementById('helpBtn').addEventListener('click', () => {
           document.getElementById('helpModal').classList.add('active');
           document.body.style.overflow = 'hidden';
@@ -235,7 +220,7 @@ window.onclick = function(event) {
 
       document.getElementById('closeHelpBtn').addEventListener('click', closeHelp);
       document.getElementById('closeHelpBtnLower').addEventListener('click', closeHelp);
-*/
+
 
 // app.js の initEventListeners 内に追加
 const locateBtn = document.getElementById('locateBtn');
@@ -1241,3 +1226,31 @@ if (listPanel && listToggle) {
     });
 }
 
+// ============================================
+// ヘルプモーダルの制御（追加分）
+// ============================================
+window.openHelpModal = function() {
+    const modal = document.getElementById('helpModal');
+    if (modal) {
+        modal.style.display = 'block';
+    }
+};
+
+window.closeHelpModal = function() {
+    const modal = document.getElementById('helpModal');
+    if (modal) {
+        modal.style.display = 'none';
+    }
+};
+
+// モーダルの外側（暗い部分）をクリックしたときも閉じるようにする
+window.addEventListener('click', function(event) {
+    const helpModal = document.getElementById('helpModal');
+    const detailModal = document.getElementById('detailModal'); // 詳細モーダルもあれば
+    if (event.target == helpModal) {
+        helpModal.style.display = "none";
+    }
+    if (event.target == detailModal) {
+        detailModal.style.display = "none";
+    }
+});
