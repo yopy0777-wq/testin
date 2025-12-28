@@ -1063,3 +1063,29 @@ body.selecting-mode .leaflet-markercluster {
 }
 
 }
+
+/* ============================================
+   通報ボタン
+   ============================================ */
+
+.btn-report-simple {
+    background: none !important;
+    border: none !important;
+    color: #bbb !important; /* 目立たない薄いグレー */
+    font-size: 0.75rem;
+    cursor: pointer;
+    padding: 5px;
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    transition: color 0.2s;
+}
+
+.btn-report-simple:hover {
+    color: var(--danger-color) !important; /* ホバー時だけ赤くする */
+    text-decoration: underline;
+}
+
+.btn-report-simple i {
+    font-size: 0.7rem;
+}
