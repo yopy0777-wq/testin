@@ -525,7 +525,7 @@ window.showDetail = async function(locationId) {
 
             </div>
             
-            <div class="detail-section last-update-row" style="display: flex; justify-content: space-between; align-items: center; margin-top: 15px;">
+            <div class="detail-section" style="display: flex; justify-content: space-between; align-items: center; margin-top: 15px;">
                 <div>
                     <h3><i class="fas fa-history"></i> 最終更新日</h3>
                     <p>${lastUpdate}</p>
