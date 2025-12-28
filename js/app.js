@@ -310,48 +310,6 @@ async function loadLocations(filters = {}) {
 // ============================================
 // 地図にマーカー表示
 // ============================================
-/*function displayLocationsOnMap(locations) {
-    // 既存のマーカーをクリア
-    markers.forEach(marker => map.removeLayer(marker));
-    markers = [];
-
-    locations.forEach(location => {
-        if (location.latitude && location.longitude) {
-            const marker = L.marker([location.latitude, location.longitude], {
-                icon: L.divIcon({
-                    className: 'custom-marker',
-                    html: '<i class="fas fa-fire"></i>',
-                    iconSize: [40, 40]
-                })
-            }).addTo(map);
-
-            marker.bindPopup(`
-                <div style="min-width: 200px;">
-                    <h3 style="margin: 0 0 0.5rem 0; color: #8B4513; font-size: 1.1rem;">${location.location_name || '名称未設定'}</h3>
-                    <p style="margin: 0.3rem 0;"><strong>🪵 種類:</strong> ${location.wood_type || '未設定'}</p>
-                    <p style="margin: 0.3rem 0;"><strong>💰 価格:</strong> ${location.price || '未設定'}円</p>
-                    <button onclick="showDetail('${location.id}')" style="margin-top: 0.5rem; padding: 0.5rem 1rem; background: #8B4513; color: white; border: none; border-radius: 4px; cursor: pointer; width: 100%;">
-                        詳細を見る
-                    </button>
-                </div>
-            `);
-
-            marker.on('click', () => {
-                map.setView([location.latitude, location.longitude], 15);
-            });
-
-            markers.push(marker);
-        }
-    });
-
-    // マーカーがある場合は地図を調整
-    if (markers.length > 0 && locations.length <= 50) {
-        const group = L.featureGroup(markers);
-        map.fitBounds(group.getBounds().pad(0.1));
-    }
-}
-*/
-
 function displayLocationsOnMap(locations) {
     // 既存のマーカーとクラスターをクリア
     if (markerClusterGroup) {
