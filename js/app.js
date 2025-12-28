@@ -673,16 +673,19 @@ async function handleSubmit(e) {
 // 通報関数
 // ============================================
 window.reportLocation = async function(id) {
-    if (!confirm('この情報を不適切な内容として通報しますか？\n一定数の通報で自動的に非表示になります。')) return;
+    if (!confirm('この情報を不適切として通報しますか？\n(一定数の通報が寄せられると自動的に非表示になります)')) return;
 
     showLoading();
     try {
-        // 現在のデータを特定
-        const target = allLocations.find(loc => String(loc.id) === String(id));
-        const currentCount = target ? (target.report_count || 0) : 0;
+        // 現在の通報数を取得
+        const res = await fetch(`${SUPABASE_URL}/rest/v1/${TABLE_NAME}?id=eq.${id}&select=report_count`, {
+            headers: { 'apikey': SUPABASE_ANON_KEY, 'Authorization': `Bearer ${SUPABASE_ANON_KEY}` }
+        });
+        const data = await res.json();
+        const currentCount = data[0]?.report_count || 0;
 
-        // パッチリクエストでカウントを+1する
-        const response = await fetch(`${SUPABASE_URL}/rest/v1/${TABLE_NAME}?id=eq.${id}`, {
+        // カウントを+1
+        const updateRes = await fetch(`${SUPABASE_URL}/rest/v1/${TABLE_NAME}?id=eq.${id}`, {
             method: 'PATCH',
             headers: {
                 'apikey': SUPABASE_ANON_KEY,
@@ -693,17 +696,16 @@ window.reportLocation = async function(id) {
             body: JSON.stringify({ report_count: currentCount + 1 })
         });
 
-        if (!response.ok) throw new Error('通報に失敗しました');
+        if (!updateRes.ok) throw new Error();
 
-        showToast('通報ありがとうございます。');
+        showToast('通報ありがとうございます');
         
-        // カウントが5に達した、もしくは現在詳細を見ているなら再読み込みして消す
+        // 5回以上になったら地図から消す
         if (currentCount + 1 >= 5) {
             closeDetailModal();
             loadLocations(); 
         }
-    } catch (error) {
-        console.error('通報エラー:', error);
+    } catch (e) {
         showToast('エラーが発生しました', 'error');
     } finally {
         hideLoading();
