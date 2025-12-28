@@ -703,6 +703,8 @@ async function handleSubmit(e) {
 // 手順1: 既存のピンから座標を引き継いで登録画面を開く
 // ============================================
 window.addAtThisLocation = function(lat, lng) {
+    document.body.classList.remove('selecting-mode');
+    isSelectingLocation = false;
     // 1. まず新規登録モーダルを開く
     if (typeof openAddModal === 'function') {
         openAddModal();
@@ -1106,10 +1108,21 @@ function openAddModal() {
     document.body.style.overflow = 'hidden';
 }
 
-function closeAddModal() {
+/*function closeAddModal() {
     // リスナーの切り替えは openAddModal と openEditModal に任せるため、ここはシンプルに戻す
     document.getElementById('addModal').classList.remove('active');
     document.body.style.overflow = '';
+}*/
+function closeAddModal() {
+    const modal = document.getElementById('addModal');
+    if (modal) {
+        modal.classList.remove('active');
+        document.body.style.overflow = '';
+    }
+    
+    // 🟢 追加：もし「地図から選択」のまま閉じた場合、透過モードを解除する
+    isSelectingLocation = false;
+    document.body.classList.remove('selecting-mode');
 }
 
 function openDetailModal() {
