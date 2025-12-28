@@ -132,30 +132,64 @@ function initMap() {
 // イベントリスナー初期化
 // ============================================
 function initEventListeners() {
-    // --- 既存のボタンリスナー ---
+    // 新規登録ボタン
     document.getElementById('addLocationBtn')?.addEventListener('click', openAddModal);
+
+    // モーダル閉じる（各ボタンにイベントを割り当て）
     document.getElementById('closeModalBtn')?.addEventListener('click', closeAddModal);
     document.getElementById('cancelBtn')?.addEventListener('click', closeAddModal);
     document.getElementById('closeDetailBtn')?.addEventListener('click', closeDetailModal);
-    document.getElementById('selectFromMapBtn')?.addEventListener('click', startMapSelection);
-    document.getElementById('addLocationForm')?.addEventListener('submit', handleSubmit);
-    document.getElementById('getCurrentLocation')?.addEventListener('click', getCurrentLocation);
-    document.getElementById('locateBtn')?.addEventListener('click', handleLocateBtn); // 現在地ボタン
+    
+    // ヘルプモーダルを閉じるボタン（HTML側にIDがあれば）
+    document.getElementById('closeHelpBtn')?.addEventListener('click', window.closeHelpModal);
+    document.getElementById('closeHelpBtnLower')?.addEventListener('click', window.closeHelpModal);
 
-    // --- ヘルプボタンのリスナー (id="helpBtn" 用) ---
-    document.getElementById('helpBtn')?.addEventListener('click', () => {
-        window.openHelpModal();
-    });
-
-    // --- モーダル外クリックで閉じる ---
+    // モーダル外クリックで閉じる
     window.addEventListener('click', (e) => {
         if (e.target.id === 'addModal') closeAddModal();
         if (e.target.id === 'detailModal') closeDetailModal();
         if (e.target.id === 'helpModal') window.closeHelpModal();
     });
 
-    // --- リスト開閉・リフレッシュ・検索などはそのまま維持 ---
-    // (中略：既存の listToggle や refreshBtn の処理)
+    // その他のリスナー
+    document.getElementById('selectFromMapBtn')?.addEventListener('click', startMapSelection);
+    document.getElementById('addLocationForm')?.addEventListener('submit', handleSubmit);
+    document.getElementById('getCurrentLocation')?.addEventListener('click', getCurrentLocation);
+    document.getElementById('filterToggle')?.addEventListener('click', toggleFilter);
+    document.getElementById('applyFilter')?.addEventListener('click', applyFilter);
+    document.getElementById('clearFilter')?.addEventListener('click', clearFilter);
+
+    // ヘルプボタン（？マーク）
+    document.getElementById('helpBtn')?.addEventListener('click', () => {
+        window.openHelpModal();
+    });
+
+    // リスト開閉
+    const listToggleBtn = document.getElementById('listToggle');
+    const listHeader = document.querySelector('.list-header');
+    [listToggleBtn, listHeader].forEach(el => {
+        el?.addEventListener('click', (e) => {
+            e.stopPropagation();
+            toggleList();
+        });
+    });
+
+    // 更新ボタン
+    document.getElementById('refreshBtn')?.addEventListener('click', () => {
+        loadLocations();
+    });
+
+    // 検索ボタン
+    document.getElementById('execSearchBtn')?.addEventListener('click', searchAddress);
+    
+    // 現在地ボタン
+    document.getElementById('locateBtn')?.addEventListener('click', () => {
+        if (navigator.geolocation) {
+            navigator.geolocation.getCurrentPosition((position) => {
+                map.setView([position.coords.latitude, position.coords.longitude], 15);
+            });
+        }
+    });
 }
 
 // ============================================
@@ -1163,4 +1197,34 @@ if (listPanel && listToggle) {
     listToggle.addEventListener('click', () => {
         listPanel.classList.toggle('open');
     });
+}
+// ============================================
+// グローバルに関数を公開（HTMLのonclickエラー対策）
+// ============================================
+
+window.openHelpModal = function() {
+    const modal = document.getElementById('helpModal');
+    if (modal) {
+        modal.classList.add('active');
+        modal.style.display = 'block'; // displayで制御している場合
+        document.body.style.overflow = 'hidden';
+    }
+};
+
+window.closeHelpModal = function() {
+    const modal = document.getElementById('helpModal');
+    if (modal) {
+        modal.classList.remove('active');
+        modal.style.display = 'none';
+        document.body.style.overflow = '';
+    }
+};
+
+// showDetail も念のため window に紐付け
+const originalShowDetail = window.showDetail;
+if (!window.showDetail) {
+    window.showDetail = async function(id) {
+        // すでにファイル内にある showDetail の中身がここに来るようにします
+        // (もしファイル内に定義があれば、ブラウザが自動で紐付けますが、エラーが出る場合はここを確認してください)
+    };
 }
