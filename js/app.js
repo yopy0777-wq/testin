@@ -527,8 +527,8 @@ window.showDetail = async function(locationId) {
             
             <div class="detail-section last-update-row" style="display: flex; justify-content: space-between; align-items: center; margin-top: 15px;">
                 <div>
-                    <h3 style="font-size: 0.75rem; color: #999; margin-bottom: 2px;"><i class="fas fa-history"></i> 最終更新日</h3>
-                    <p style="margin: 0; font-size: 0.85rem; color: #666;">${lastUpdate}</p>
+                    <h3><i class="fas fa-history"></i> 最終更新日</h3>
+                    <p>${lastUpdate}</p>
                 </div>
                 
                 <button class="btn-report-cute" onclick="window.reportLocation('${location.id}')" title="不適切な情報を報告">
