@@ -1201,12 +1201,10 @@ if (listPanel && listToggle) {
 // ============================================
 // グローバルに関数を公開（HTMLのonclickエラー対策）
 // ============================================
-
 window.openHelpModal = function() {
     const modal = document.getElementById('helpModal');
     if (modal) {
-        modal.classList.add('active');
-        modal.style.display = 'block'; // displayで制御している場合
+        modal.classList.add('active'); // CSS側の flex 設定を動かす
         document.body.style.overflow = 'hidden';
     }
 };
@@ -1215,7 +1213,6 @@ window.closeHelpModal = function() {
     const modal = document.getElementById('helpModal');
     if (modal) {
         modal.classList.remove('active');
-        modal.style.display = 'none';
         document.body.style.overflow = '';
     }
 };
