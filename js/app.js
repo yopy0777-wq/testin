@@ -525,16 +525,16 @@ window.showDetail = async function(locationId) {
 
             </div>
             
-            <div class="detail-section last-update-row" style="display: flex; justify-content: space-between; align-items: flex-end; margin-top: 20px; padding-top: 10px; border-top: 1px solid #eee;">
-        <div>
-            <h3 style="font-size: 0.8rem; margin-bottom: 4px;"><i class="fas fa-history"></i> 最終更新日</h3>
-            <p style="margin: 0; font-size: 0.9rem;">${lastUpdate}</p>
-        </div>
-        
-        <button class="btn-report-simple" onclick="window.reportLocation('${location.id}')" title="不適切な情報を報告">
-            <i class="fas fa-flag"></i> 通報
-        </button>
-    </div>
+            <div class="detail-section last-update-row" style="display: flex; justify-content: space-between; align-items: center; margin-top: 15px;">
+                <div>
+                    <h3 style="font-size: 0.75rem; color: #999; margin-bottom: 2px;"><i class="fas fa-history"></i> 最終更新日</h3>
+                    <p style="margin: 0; font-size: 0.85rem; color: #666;">${lastUpdate}</p>
+                </div>
+                
+                <button class="btn-report-cute" onclick="window.reportLocation('${location.id}')" title="不適切な情報を報告">
+                    <i class="fas fa-flag"></i>
+                </button>
+            </div>
         `;
         
         openDetailModal();
