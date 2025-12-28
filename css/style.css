@@ -966,65 +966,51 @@ form {
 /* ============================================
    ヘルプ
    ============================================ */
-
-.header-actions {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-}
-
-.btn-help {
-    background: none;
-    border: none;
-    color: white;
-    font-size: 1.5rem;
-    cursor: pointer;
-    transition: transform 0.2s;
-    padding: 5px;
-}
-
-.btn-help:hover {
-    transform: scale(1.1);
-}
-
-/* ヘルプ内容のスタイル */
-.help-content {
-    max-width: 500px;
-}
-
+/* ヘルプモーダル専用のスクロール設定 */
 .help-body {
-    padding: 10px 10px 10px 10px; 
-    box-sizing: border-box;
+    max-height: 65vh; /* 画面の高さの65%までに制限 */
+    overflow-y: auto; /* 縦スクロールを有効に */
+    padding: 15px !important;
+    -webkit-overflow-scrolling: touch; /* iPhoneでのスクロールを滑らかに */
 }
 
-.help-step {
+.manual-container {
     display: flex;
-    align-items: flex-start;
-    gap: 20px;
-    margin-bottom: 35px;
+    flex-direction: column;
+    gap: 30px; /* 各項目の間隔を広げて見やすく */
 }
 
-.step-number {
-    background: var(--primary-color);
-    color: white;
-    width: 28px;
-    height: 28px;
-    border-radius: 50%;
+.manual-item {
+    border-bottom: 1px dashed #eee; /* 項目ごとの区切り線 */
+    padding-bottom: 20px;
+}
+
+.manual-item:last-child {
+    border-bottom: none;
+}
+
+.manual-item h4 {
+    color: var(--primary-color);
+    margin-bottom: 10px;
+    font-size: 1.1rem;
     display: flex;
     align-items: center;
-    justify-content: center;
-    flex-shrink: 0;
-    font-weight: bold;
+    gap: 8px;
 }
 
-.help-image-placeholder {
-    text-align: center;
-    font-size: 4rem;
-    color: #eee;
-    margin: 20px 0;
-    padding: 20px;
-    background: #fafafa;
-    border-radius: 10px;
+.manual-img {
+    width: 100%;
+    height: auto;
+    border-radius: 12px; /* 画像の角を丸くして可愛く */
+    box-shadow: 0 4px 12px rgba(0,0,0,0.1); /* 軽い影 */
+    margin-bottom: 10px;
+    border: 1px solid #f0f0f0;
+}
+
+.manual-item p {
+    font-size: 0.9rem;
+    color: #666;
+    line-height: 1.6;
 }
 
 /* ============================================
