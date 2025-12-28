@@ -519,11 +519,8 @@ window.showDetail = async function(locationId) {
                     <i class="fas fa-map-marked-alt"></i> 地図
                 </button>
                 
-                <a href="https://www.google.com/maps/search/?api=1&query=${location.latitude},${location.longitude}" 
-                   target="_blank" 
-                   class="btn" 
-                   style="flex: 1; text-decoration: none; display: flex; align-items: center; justify-content: center; background-color: #fff; border: 1px solid #ddd; color: #333; padding: 10px 5px; border-radius: 6px; font-size: 13px; white-space: nowrap;">
-                    <i class="fab fa-google" style="margin-right: 4px; color: #4285F4;"></i> Google
+                <a href="https://www.google.com/maps/search/?api=1&query=${location.latitude},${location.longitude}" target="_blank" class="btn btn-outline" style="margin-left: 10px;">
+                    <i class="fab fa-google"></i> Googleマップで開く
                 </a>
                 
                 <button class="btn btn-secondary" onclick="openEditModal('${location.id}')">
