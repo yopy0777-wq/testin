@@ -486,10 +486,10 @@ window.showDetail = async function(locationId) {
 
         // 🟢 通報状態のテキスト（5回以上なら「非表示中」と表示）
         const reportCount = location.report_count || 0;
-        /*const reportStatusHtml = reportCount > 0 
+        const reportStatusHtml = reportCount > 0 
             ? `<p style="color: var(--danger-color); font-size: 0.8rem;">
                 <i class="fas fa-exclamation-circle"></i> この情報は現在 ${reportCount} 回通報されています。
-               </p>` : '';*/
+               </p>` : '';
         
         detailContent.innerHTML = `
             <div class="detail-section">
