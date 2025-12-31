@@ -17,7 +17,7 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.4.0/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@300;400;500;700&display=swap" rel="stylesheet">
     
-    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="/src/style.css">
 </head>
 <body>
     <header>
@@ -104,7 +104,7 @@
                 </button>
             </div>
             <form id="addLocationForm" novalidate>
-               <div class="search-outer-container">
+               <!--<div class="search-outer-container">
                    <label class="form-label">場所を検索 (住所や施設名)</label>
                    <div class="search-flex-box">
                        <input type="text" id="placeSearch" class="form-control" placeholder="例: 東京都千代田区">
@@ -118,7 +118,7 @@
                    </small>
                </div>
 
-                <hr class="form-divider">
+                <hr class="form-divider">-->
 
                 <div class="form-group">
                     <label for="locationName">場所名 <span class="required">*</span></label>
@@ -249,6 +249,6 @@
 
     <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
     <script src="https://unpkg.com/leaflet.markercluster@1.4.1/dist/leaflet.markercluster.js"></script>
-    <script src="js/app.js"></script>
+    <script type="module" src="/src/main.js"></script>
 </body>
 </html>

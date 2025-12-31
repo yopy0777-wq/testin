@@ -211,6 +211,8 @@ function displayLocationsOnMap(locations) {
     markers = [];
 
     markerClusterGroup = L.markerClusterGroup({
+        maxClusterRadius: 40,
+        DisposableClusteringAtZoom: 16,
         spiderfyOnMaxZoom: true,
         showCoverageOnHover: false,
         zoomToBoundsOnClick: true
@@ -698,7 +700,7 @@ async function searchAddress() {
         const response = await fetch(url);
         const data = await response.json();
 
-        const resultsContainer = document.getElementById('searchResults');
+        //const resultsContainer = document.getElementById('searchResults');
         resultsContainer.innerHTML = '';
 
         if (data.length === 0) {
@@ -768,7 +770,7 @@ function openAddModal() {
 function closeAddModal() {
     closeModal('addModal');
     document.getElementById('addLocationForm').reset();
-    document.getElementById('searchResults').innerHTML = '';
+    //document.getElementById('searchResults').innerHTML = '';
 }
 
 function closeDetailModal() {
@@ -824,3 +826,16 @@ function setFillHeight() {
         document.documentElement.style.setProperty('--vh', `${vh}px`);
     });
 }
+
+// HTMLのイベントリスナーやonclickから呼び出せるようにグローバルに公開する
+window.toggleFilter = toggleFilter;
+window.toggleList = toggleList;
+window.applyFilter = applyFilter;
+window.clearFilter = clearFilter;
+window.closeHelpModal = closeHelpModal;
+window.openHelpModal = openHelpModal;
+window.showDetail = showDetail;
+window.focusOnMap = focusOnMap;
+window.reportLocation = reportLocation;
+window.openEditModal = openEditModal;
+window.addAtThisLocation = addAtThisLocation;
