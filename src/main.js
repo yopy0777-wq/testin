@@ -272,7 +272,7 @@ function createPopupContent(group) {
             <div style="${index > 0 ? 'margin-top: 15px; padding-top: 10px; border-top: 1px dashed #ccc;' : ''}">
                 <h3 style="margin: 0 0 0.5rem 0; color: #8B4513; font-size: 1.1rem;">${loc.location_name || '名称未設定'}</h3>
                 <p style="margin: 0.3rem 0;"><strong>🪵 種類:</strong> ${loc.wood_type || '未設定'}</p>
-                <p style="margin: 0.3rem 0;"><strong>💰 価格:</strong> ${loc.price || '未設定'}円</p>
+                <p style="margin: 0.3rem 0;"><strong>💰 価格:</strong> ${loc.price || '未設定'}円${loc.amount ? ' / ' + loc.amount : ''}</p>
                 <button onclick="showDetail('${loc.id}')" style="margin-top: 0.5rem; padding: 0.5rem 1rem; background: #8B4513; color: white; border: none; border-radius: 4px; cursor: pointer; width: 100%;">
                     詳細を見る
                 </button>
@@ -306,18 +306,25 @@ function displayLocationsList(locations) {
         return;
     }
 
-    listContainer.innerHTML = locations.map(loc => `
-        <div class="location-card" onclick="focusOnMarker('${loc.id}', ${loc.latitude}, ${loc.longitude})">
-            <div class="location-card-header">
-                <div class="location-card-title">${loc.location_name || '名称未設定'}</div>
+    listContainer.innerHTML = locations.map(loc => {
+        // 価格と数量の表示を整える
+        const priceText = loc.price !== null ? `${loc.price}円` : '価格未設定';
+        // 数量がある場合のみ「 / 単位」を表示
+        const amountText = loc.amount ? `<span style="font-size: 0.85em; color: #666; font-weight: normal;"> / ${loc.amount}</span>` : '';
+
+        return `
+            <div class="location-card" onclick="focusOnMarker('${loc.id}', ${loc.latitude}, ${loc.longitude})">
+                <div class="location-card-header">
+                    <div class="location-card-title">${loc.location_name || '名称未設定'}</div>
+                </div>
+                <div class="location-card-info">
+                    <p><i class="fas fa-tree"></i> ${loc.wood_type || '未設定'}</p>
+                    <p><i class="fas fa-yen-sign"></i> <strong>${priceText}</strong>${amountText}</p>
+                    ${loc.address ? `<p><i class="fas fa-map-marker-alt"></i> ${loc.address}</p>` : ''}
+                </div>
             </div>
-            <div class="location-card-info">
-                <p><i class="fas fa-tree"></i> ${loc.wood_type || '未設定'}</p>
-                <p><i class="fas fa-yen-sign"></i> ${loc.price || '未設定'}円</p>
-                ${loc.address ? `<p><i class="fas fa-map-marker-alt"></i> ${loc.address}</p>` : ''}
-            </div>
-        </div>
-    `).join('');
+        `;
+    }).join('');
 }
 
 // マーカーにフォーカス
@@ -378,9 +385,13 @@ window.showDetail = async function(locationId) {
             </div>
             
             <div class="detail-section">
+                <h3><i class="fas fa-yen-sign"></i> 価格 / 数量</h3>
+                <p>${location.price || '未設定'}円 ${location.amount ? ' / ' + location.amount : ''}</p>
+            </div>
+            <!--<div class="detail-section">
                 <h3><i class="fas fa-yen-sign"></i> 価格</h3>
                 <p>${location.price || '未設定'}円</p>
-            </div>
+            </div>-->
             
             <div class="detail-section">
                 <h3><i class="fas fa-map"></i> 位置情報</h3>
@@ -488,6 +499,7 @@ function getFormData() {
         location_name: document.getElementById('locationName').value,
         wood_type: document.getElementById('woodType').value,
         price: parseInt(document.getElementById('price').value) || null,
+        amount: document.getElementById('amount').value,
         latitude: parseFloat(document.getElementById('latitude').value),
         longitude: parseFloat(document.getElementById('longitude').value),
         notes: document.getElementById('notes').value || ''
@@ -555,6 +567,7 @@ window.openEditModal = function(id) {
     if (locationToEdit) {
         document.getElementById('locationName').value = locationToEdit.location_name || '';
         document.getElementById('woodType').value = locationToEdit.wood_type || '';
+        document.getElementById('amount').value = locationToEdit.amount || '';
         document.getElementById('price').value = locationToEdit.price || '';
         document.getElementById('latitude').value = locationToEdit.latitude || '';
         document.getElementById('longitude').value = locationToEdit.longitude || '';
