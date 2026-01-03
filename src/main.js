@@ -106,13 +106,17 @@ function initEventListeners() {
         'helpBtn': () => openHelpModal(),
         'refreshBtn': () => loadLocations(),
         'execSearchBtn': searchAddress,
-        'locateBtn': handleLocateBtn
+        'locateBtn': handleLocateBtn,
+        'openContactBtn': () => openModal('contactModal'),
+        'closeContactModalBtn': () => closeModal('contactModal'),
+        'cancelContactBtn': () => closeModal('contactModal'),
+        'contactForm': handleContactSubmit
     };
 
     Object.entries(listeners).forEach(([id, handler]) => {
         const el = document.getElementById(id);
         if (el) {
-            const event = id === 'addLocationForm' ? 'submit' : 'click';
+            const event = (id === 'addLocationForm' || id === 'contactForm') ? 'submit' : 'click';
             el.addEventListener(event, handler);
         }
     });
@@ -488,6 +492,45 @@ async function handleSubmit(e) {
     } catch (error) {
         console.error('登録エラー:', error);
         showToast('登録に失敗しました', 'error');
+    } finally {
+        hideLoading();
+    }
+}
+// 問い合わせ送信
+async function handleContactSubmit(e) {
+    if (e) e.preventDefault();
+    showLoading();
+
+    const contactData = {
+        name: document.getElementById('contactName').value,
+        email: document.getElementById('contactEmail').value,
+        category: document.getElementById('contactCategory').value,
+        message: document.getElementById('contactMessage').value,
+        created_at: new Date().toISOString()
+    };
+
+    try {
+        const response = await fetch(`${CONFIG.SUPABASE_URL}/rest/v1/contacts`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'apikey': CONFIG.SUPABASE_ANON_KEY,
+                'Authorization': `Bearer ${CONFIG.SUPABASE_ANON_KEY}`,
+                'Prefer': 'return=minimal'
+            },
+            body: JSON.stringify(contactData)
+        });
+
+        if (response.ok) {
+            showToast('送信ありがとうございます！内容を確認させていただきます。', 'success');
+            closeModal('contactModal');
+            document.getElementById('contactForm').reset();
+        } else {
+            throw new Error('送信失敗');
+        }
+    } catch (error) {
+        console.error('Contact error:', error);
+        showToast('送信に失敗しました。時間をおいて再度お試しください。', 'error');
     } finally {
         hideLoading();
     }

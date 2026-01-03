@@ -246,6 +246,9 @@
                             Developed by ゆきぬ<br>
                             お問い合わせ：X(Twitter) @lowgeh
                         </p>
+                        <button id="openContactBtn" class="btn btn-outline" style="width: 100%;">
+                            <i class="fas fa-envelope"></i> 開発者へ要望・報告を送る
+                        </button>
                     </div>
                 </div>
             </div>
@@ -254,6 +257,44 @@
             </div>
         </div>
     </div>
+     <!-- 問い合わせモーダル -->
+    <div id="contactModal" class="modal">
+    <div class="modal-content">
+        <div class="modal-header">
+            <h2><i class="fas fa-envelope"></i> お問い合わせ</h2>
+            <button class="close-btn" id="closeContactModalBtn">&times;</button>
+        </div>
+        <form id="contactForm">
+            <div class="form-group">
+                <label>お名前（ニックネーム可）</label>
+                <input type="text" id="contactName" class="form-control" maxlength="20" required placeholder="焚き火 太郎">
+            </div>
+            <div class="form-group">
+                <label>メールアドレス（返信が必要な場合）</label>
+                <input type="email" id="contactEmail" class="form-control" maxlength="100" placeholder="example@mail.com">
+            </div>
+            <div class="form-group">
+                <label>お問い合わせ項目</label>
+                <select id="contactCategory">
+                    <option value="要望">新機能・改善のご要望</option>
+                    <option value="不具合">不具合の報告</option>
+                    <option value="削除依頼">情報の削除依頼</option>
+                    <option value="その他">その他</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label>内容</label>
+                <textarea id="contactMessage" class="form-control" maxlength="400" required placeholder="お問い合わせ内容をご記入ください" style="height: 120px;"></textarea>
+            </div>
+            <div class="modal-actions">
+                <button type="button" class="btn btn-outline" id="cancelContactBtn">キャンセル</button>
+                <button type="submit" class="btn btn-primary">
+                    <i class="fas fa-paper-plane"></i> 送信する
+                </button>
+            </div>
+        </form>
+    </div>
+</div>
 
     <div id="loading" class="loading">
         <div class="spinner"></div>

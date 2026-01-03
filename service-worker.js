@@ -3,10 +3,16 @@ const urlsToCache = [
   './',
   'index.html',
   'css/style.css',
-  'js/app.js',
+  'js/main.js',
   'https://unpkg.com/leaflet@1.9.4/dist/leaflet.css',
   'https://unpkg.com/leaflet@1.9.4/dist/leaflet.js',
-  'https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.4.0/css/all.min.css'
+  'https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.4.0/css/all.min.css',
+  'images/manual1.png',
+  'images/manual2.png',
+  'images/manual3.png',
+  'images/manual4.png',
+  'images/manual5.png',
+  'images/manual6.png'
 ];
 
 // インストール時にキャッシュを作成
