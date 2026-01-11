@@ -265,19 +265,32 @@ function groupLocationsByCoords(locations) {
 
 // ポップアップコンテンツ作成
 function createPopupContent(group) {
-    let html = `<div style="min-width: 220px; max-height: 300px; overflow-y: auto;">`;
+    let html = `<div style="min-width: 220px; max-height: 380px; overflow-y: auto;">`; // 備考が増える分、高さを少し広げました
     
     if (group.length > 1) {
         html += `<p style="margin: 0 0 8px 0; font-weight: bold; border-bottom: 2px solid #8B4513;">📍 この場所に ${group.length} 件あります</p>`;
     }
 
     group.forEach((loc, index) => {
+        const isFirst = index === 0;
+
         html += `
-            <div style="${index > 0 ? 'margin-top: 15px; padding-top: 10px; border-top: 1px dashed #ccc;' : ''}">
-                <h3 style="margin: 0 0 0.5rem 0; color: #8B4513; font-size: 1.1rem;">${loc.location_name || '名称未設定'}</h3>
-                <p style="margin: 0.3rem 0;"><strong>🪵 種類:</strong> ${loc.wood_type || '未設定'}</p>
-                <p style="margin: 0.3rem 0;"><strong>💰 価格:</strong> ${loc.price || '未設定'}円${loc.amount ? ' / ' + loc.amount : ''}</p>
-                <button onclick="showDetail('${loc.id}')" style="margin-top: 0.5rem; padding: 0.5rem 1rem; background: #8B4513; color: white; border: none; border-radius: 4px; cursor: pointer; width: 100%;">
+            <div style="${index > 0 ? 'margin-top: 10px; padding-top: 10px; border-top: 1px dashed #ccc;' : ''} ${!isFirst ? 'margin-left: 10px;' : ''}">
+                ${isFirst 
+                    ? `<h3 style="margin: 0 0 0.5rem 0; color: #8B4513; font-size: 1.1rem;">${loc.location_name || '名称未設定'}</h3>` 
+                    : ''
+                }
+                <p style="margin: 0.2rem 0; font-size: 0.9rem;"><strong>🪵 種類:</strong> ${loc.wood_type || '未設定'}</p>
+                <p style="margin: 0.2rem 0; font-size: 0.9rem;"><strong>💰 価格:</strong> ${loc.price || '未設定'}円${loc.amount ? ' / ' + loc.amount : ''}</p>
+                
+                ${loc.description || loc.notes 
+                    ? `<p style="margin: 0.3rem 0; font-size: 0.85rem; color: #666; font-style: italic;">
+                        <i class="fas fa-comment-alt"></i> ${loc.description || loc.notes}
+                       </p>` 
+                    : ''
+                }
+
+                <button onclick="showDetail('${loc.id}')" style="margin-top: 0.5rem; padding: 0.4rem 1rem; background: #8B4513; color: white; border: none; border-radius: 4px; cursor: pointer; width: 100%; font-size: 0.85rem;">
                     詳細を見る
                 </button>
             </div>
