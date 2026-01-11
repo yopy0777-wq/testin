@@ -522,6 +522,16 @@ async function handleContactSubmit(e) {
         });
 
         if (response.ok) {
+            const discordWebhookUrl = 'https://discord.com/api/webhooks/1459820250055971060/U-IiclJ1vLO-oXSs83SrpwVZUJwqvkYWPYYDCAzpMHpebBSEUwq5ws5fglAAPAHR35Fi'; // 画像のURL
+            
+            await fetch(discordWebhookUrl, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                    content: `🔥 **薪マップにお問い合わせが届きました**\n\n**【お名前】**\n${contactData.name}\n**【カテゴリ】**\n${contactData.category}\n**【内容】**\n${contactData.message}\n---\n返信用：${contactData.email}`
+                })
+            });
+
             showToast('送信ありがとうございます！内容を確認させていただきます。', 'success');
             closeModal('contactModal');
             document.getElementById('contactForm').reset();
