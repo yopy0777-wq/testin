@@ -84,12 +84,90 @@
 ├── index.html              # メインHTMLファイル
 ├── manifest.json           # PWAマニフェスト
 ├── service-worker.js       # Service Worker
-├── css/
-│   └── style.css          # メインスタイルシート
-├── js/
-│   └── app.js             # アプリケーションロジック
-└── README.md              # プロジェクトドキュメント
+├── src/
+│   ├── constants.js        # 定数定義（Supabase設定、マップ設定等）
+│   ├── utils.js            # ユーティリティ関数（UI操作、通知等）
+│   ├── api.js              # API通信関数（Supabase、住所検索等）
+│   ├── map.js              # 地図関連機能（Leaflet操作、マーカー表示等）
+│   ├── main.js             # メインアプリケーションロジック
+│   ├── style.css           # メインスタイルシート
+│   └── main.backup.js      # リファクタリング前のバックアップ
+├── package.json            # プロジェクト設定
+├── vite.config.js          # Viteビルド設定
+└── README.md               # プロジェクトドキュメント
 ```
+
+### 📋 コードベース構成（リファクタリング済み）
+
+アプリケーションは機能ごとにモジュール化されており、メンテナンス性が高く設計されています。
+
+#### **constants.js** - 設定定数を集約
+- Supabase接続情報（URL、API Key）
+- マップ設定（初期位置、ズーム、クラスタリング設定）
+- UI設定（トースト表示時間、ズームレベル等）
+- カラーパレット、アイコン設定
+
+**変更が必要なケース:**
+- Supabase接続情報を変更する時
+- マップの初期表示位置を変更する時
+- 通報閾値を調整する時
+
+#### **utils.js** - 汎用ユーティリティ関数
+- UI通知機能（`showToast`, `showLoading`, `hideLoading`）
+- モーダル操作（`openModal`, `closeModal`）
+- フォーム操作（`resetForm`）
+- ポップアップコンテンツ生成（`createPopupContent`）
+- 座標グループ化（`groupLocationsByCoords`）
+
+**変更が必要なケース:**
+- トースト表示時間を変更する時
+- ポップアップのレイアウトを変更する時
+- 共通のUI操作を追加する時
+
+#### **api.js** - API通信を集約
+- Supabaseへのデータ操作
+  - `fetchLocations()` - 場所データの取得
+  - `fetchLocationById()` - 特定場所の取得
+  - `addLocation()` - 新規場所の追加
+  - `updateLocation()` - 場所の更新
+  - `deleteLocation()` - 場所の削除
+  - `incrementReportCount()` - 通報数の増加
+- 住所検索API（Nominatim）
+- お問い合わせ送信
+
+**変更が必要なケース:**
+- APIエンドポイントを変更する時
+- 新しいAPIを追加する時
+- データ取得のフィルター条件を追加する時
+
+#### **map.js** - 地図機能を集約
+- 地図の初期化（Leaflet.js）
+- マーカー表示とクラスタリング
+- 座標選択機能（マップクリック、既存ピンクリック対応）
+- 現在地取得
+- 地図の表示範囲管理
+
+**エクスポートされる変数:**
+- `map` - Leafletマップインスタンス
+- `selectionState` - 座標選択モードの状態
+
+**変更が必要なケース:**
+- マーカーのデザインを変更する時
+- クラスタリングの挙動を調整する時
+- 地図の操作方法を変更する時
+
+#### **main.js** - メインアプリロジック（リファクタリングで約30%削減）
+- アプリケーションの初期化
+- イベントリスナーの設定
+- モーダル操作（登録、編集、詳細表示）
+- フォーム処理（登録・編集・削除）
+- フィルター機能
+- 通報機能
+
+**変更が必要なケース:**
+- 新しい機能を追加する時
+- フォームの検証ルールを変更する時
+- イベント処理を追加する時
 
 ## 🗄️ データモデル
 
@@ -241,6 +319,93 @@
 - [ ] データエクスポート機能
 - [ ] 統計情報の表示
 - [ ] 管理者ダッシュボード
+
+## 🔧 開発ワークフロー
+
+### 環境構築
+```bash
+# 依存関係のインストール
+npm install
+
+# 開発サーバーの起動（ホットリロード対応）
+npm run dev
+
+# プロダクションビルド
+npm run build
+
+# ビルド結果のプレビュー
+npm run preview
+```
+
+### メンテナンス方法
+
+#### 新機能の追加
+1. **定数が必要な場合** → `src/constants.js`に追加
+2. **汎用的な関数** → `src/utils.js`に追加
+3. **API通信** → `src/api.js`に追加
+4. **地図関連** → `src/map.js`に追加
+5. **アプリロジック** → `src/main.js`に追加
+
+#### よくある変更例
+
+**Supabaseの接続情報を変更:**
+```javascript
+// src/constants.js
+export const CONFIG = {
+    SUPABASE_URL: 'https://your-project.supabase.co',
+    SUPABASE_ANON_KEY: 'your-anon-key',
+    // ...
+};
+```
+
+**マップの初期位置を変更:**
+```javascript
+// src/constants.js
+export const CONFIG = {
+    // ...
+    DEFAULT_CENTER: [35.6812, 139.7671], // 東京
+    DEFAULT_ZOOM: 10,
+};
+```
+
+**トースト表示時間を変更:**
+```javascript
+// src/constants.js
+export const UI_CONFIG = {
+    TOAST_DURATION: 5000, // 5秒に変更
+    // ...
+};
+```
+
+**新しいフィルター条件を追加:**
+```javascript
+// src/api.js の fetchLocations()
+if (filters.salesPeriod) {
+    url += `&sales_period=ilike.*${encodeURIComponent(filters.salesPeriod)}*`;
+}
+```
+
+### コーディング規約
+1. **ES6モジュール** - `import`/`export`を使用
+2. **関数にはJSDocコメント**を付ける
+3. **定数は大文字**で定義（例: `CONFIG`, `MAP_CONFIG`）
+4. **関数名は動詞から始める**（例: `fetchLocations`, `showToast`）
+5. **非同期処理は`async/await`**を使用
+
+### トラブルシューティング
+
+**ビルドエラーが出る:**
+- `npm install`で依存関係を再インストール
+- 各ファイルのimport文が正しいか確認
+
+**地図が表示されない:**
+- `src/map.js`の`initMap()`が正しく呼ばれているか確認
+- ブラウザのコンソールでエラーを確認
+
+**データが取得できない:**
+- `src/constants.js`のSupabase設定を確認
+- ネットワークタブでAPIリクエストを確認
+- Supabaseのダッシュボードで権限を確認
 
 ## 🛠️ 開発推奨事項
 
