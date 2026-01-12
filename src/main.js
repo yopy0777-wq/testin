@@ -238,6 +238,29 @@ function displayLocationsOnMap(locations, preventReset = false) {
         });
 
         marker.bindPopup(createPopupContent(group));
+
+        // 選択モード時のマーカークリック処理を追加
+        marker.on('click', function(e) {
+            if (isSelectingLocation) {
+                L.DomEvent.stopPropagation(e);
+                const latlng = e.latlng;
+                document.getElementById('latitude').value = latlng.lat.toFixed(6);
+                document.getElementById('longitude').value = latlng.lng.toFixed(6);
+
+                // 場所名も引き継ぎ
+                const locationName = first.location_name || '';
+                if (locationName) {
+                    document.getElementById('locationName').value = locationName;
+                }
+
+                isSelectingLocation = false;
+                document.body.classList.remove('selecting-mode');
+
+                openModal('addModal');
+                showToast(`既存の場所（${latlng.lat.toFixed(4)}, ${latlng.lng.toFixed(4)}）の座標を取得しました`, 'success');
+            }
+        });
+
         markerClusterGroup.addLayer(marker);
         markers.push(marker);
     }
@@ -276,8 +299,8 @@ function createPopupContent(group) {
 
         html += `
             <div style="${index > 0 ? 'margin-top: 10px; padding-top: 10px; border-top: 1px dashed #ccc;' : ''} ${!isFirst ? 'margin-left: 10px;' : ''}">
-                ${isFirst 
-                    ? `<h3 style="margin: 0 0 0.5rem 0; color: #8B4513; font-size: 1.1rem;">${loc.location_name || '名称未設定'}</h3>` 
+                ${isFirst
+                    ? `<h3 style="margin: 0 0 0.5rem 0; color: #8B4513; font-size: 1.1rem; font-weight: bold; text-align: center;">${loc.location_name || '名称未設定'}</h3>`
                     : ''
                 }
                 <p style="margin: 0.2rem 0; font-size: 0.9rem;"><strong>🪵 種類:</strong> ${loc.wood_type || '未設定'}</p>

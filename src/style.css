@@ -823,7 +823,11 @@ form {
 }
 
 body.selecting-mode .leaflet-marker-icon,
-body.selecting-mode .leaflet-marker-shadow,
+body.selecting-mode .leaflet-marker-shadow {
+    opacity: 0.8 !important;
+    cursor: crosshair !important;
+}
+
 body.selecting-mode .leaflet-markercluster {
     pointer-events: none !important;
     opacity: 0.6 !important;
