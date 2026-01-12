@@ -731,7 +731,13 @@ async function handleUpdate(e) {
 
 // マップ選択モード
 function startMapSelection() {
-    closeAddModal();
+    // 修正：closeAddModal() だと reset() が走るので、直接スタイルを操作する
+    const modal = document.getElementById('addModal');
+    if (modal) {
+        modal.classList.remove('active');
+        modal.style.display = 'none';
+    }
+    
     isSelectingLocation = true;
     document.body.classList.add('selecting-mode');
     
