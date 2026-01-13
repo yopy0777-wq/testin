@@ -97,6 +97,7 @@ function setupGlobalFunctions() {
     window.viewDetails = showDetail; // 互換性のためviewDetailsも設定
     window.reportLocation = reportLocation;
     window.openEditModal = openEditModal;
+    window.openAddToLocationModal = openAddToLocationModal;
     window.openHelpModal = openHelpModal;
     window.closeHelpModal = closeHelpModal;
 
@@ -564,7 +565,7 @@ async function openEditModal(id) {
         if (!location) throw new Error("Location not found");
 
         // 隠しフィールドにIDをセット
-        document.getElementById('editId').value = id; 
+        document.getElementById('editId').value = id;
 
         // 登録用フォームの各入力欄（IDが locationName 等）に既存の値をセット
         document.getElementById('locationName').value = location.location_name || '';
@@ -578,7 +579,7 @@ async function openEditModal(id) {
         // モーダルの見出しとボタンを「編集モード」に変更
         const modalHeader = document.querySelector('#addModal .modal-header h2');
         const submitBtn = document.querySelector('#addModal button[type="submit"]');
-        
+
         if (modalHeader) modalHeader.innerHTML = '<i class="fas fa-edit"></i> 薪販売場所の編集';
         if (submitBtn) submitBtn.innerHTML = '<i class="fas fa-save"></i> 更新';
 
@@ -589,6 +590,37 @@ async function openEditModal(id) {
     } finally {
         hideLoading();
     }
+}
+
+/**
+ * 既存の場所に追加登録するモーダルを開く
+ * @param {number} latitude - 緯度
+ * @param {number} longitude - 経度
+ * @param {string} locationName - 場所名
+ */
+function openAddToLocationModal(latitude, longitude, locationName) {
+    // フォームをリセット
+    resetForm('addLocationForm');
+
+    // 隠しIDを空にする(新規登録として扱う)
+    document.getElementById('editId').value = '';
+
+    // 座標と場所名を自動入力
+    document.getElementById('latitude').value = latitude.toFixed(6);
+    document.getElementById('longitude').value = longitude.toFixed(6);
+    document.getElementById('locationName').value = locationName;
+
+    // モーダルの見出しとボタンを「追加登録モード」に変更
+    const modalHeader = document.querySelector('#addModal .modal-header h2');
+    const submitBtn = document.querySelector('#addModal button[type="submit"]');
+
+    if (modalHeader) modalHeader.innerHTML = '<i class="fas fa-plus-circle"></i> 薪情報の追加登録';
+    if (submitBtn) submitBtn.innerHTML = '<i class="fas fa-save"></i> 登録';
+
+    // モーダルを開く
+    openModal('addModal');
+
+    showToast('場所情報が入力されました。薪の詳細を追加してください', 'success');
 }
 
 // 編集フォーム関連のイベントリスナーを追加で設定

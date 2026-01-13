@@ -29,15 +29,25 @@ export function groupLocationsByCoords(locations) {
 export function createPopupContent(locations) {
     let html = '<div style="max-height: 300px; overflow-y: auto; min-width: 250px;">';
 
-    locations.forEach((loc, index) => {
-        const isFirst = index === 0;
-
+    // 場所名とボタンを先に表示（最初の場所のみ）
+    if (locations.length > 0) {
+        const firstLoc = locations[0];
         html += `
-            <div style="${index > 0 ? 'margin-top: 10px; padding-top: 10px; border-top: 1px dashed #ccc;' : ''} ${!isFirst ? 'margin-left: 10px;' : ''}">
-                ${isFirst
-                    ? `<h3 style="margin: 0 0 0.5rem 0; color: #8B4513; font-size: 1.1rem; font-weight: bold; text-align: center;">${loc.location_name || '名称未設定'}</h3>`
-                    : ''
-                }
+            <div style="text-align: center; margin-bottom: 0.8rem; padding-bottom: 0.8rem; border-bottom: 2px solid #8B4513;">
+                <h3 style="margin: 0 0 0.6rem 0; color: #8B4513; font-size: 1.1rem; font-weight: bold;">${firstLoc.location_name || '名称未設定'}</h3>
+                <button
+                    onclick="window.openAddToLocationModal(${firstLoc.latitude}, ${firstLoc.longitude}, '${firstLoc.location_name ? firstLoc.location_name.replace(/'/g, "\\'") : ''}')"
+                    style="padding: 0.3rem 0.6rem; background-color: #e26d37; color: white; border: none; border-radius: 4px; cursor: pointer; font-size: 0.75rem;">
+                    <i class="fas fa-plus"></i> 追加登録
+                </button>
+            </div>
+        `;
+    }
+
+    // 薪の情報を表示
+    locations.forEach((loc, index) => {
+        html += `
+            <div style="${index > 0 ? 'margin-top: 10px; padding-top: 10px; border-top: 1px dashed #ccc;' : ''}">
                 <p style="margin: 0.2rem 0; font-size: 0.9rem;"><strong>🪵 種類:</strong> ${loc.wood_type || '未設定'}</p>
                 <p style="margin: 0.2rem 0; font-size: 0.9rem;"><strong>💰 価格:</strong> ${loc.price || '未設定'}円${loc.amount ? ' / ' + loc.amount : ''}</p>
 
@@ -58,8 +68,8 @@ export function createPopupContent(locations) {
 
                 <button
                     onclick="window.showDetail('${loc.id}')"
-                    style="margin-top: 0.5rem; padding: 0.4rem 0.8rem; background-color: #8B4513; color: white; border: none; border-radius: 6px; cursor: pointer; font-size: 0.85rem; width: 100%;">
-                    詳細を見る
+                    style="margin-top: 0.4rem; padding: 0.25rem 0.5rem; background-color: #95a5a6; color: white; border: none; border-radius: 4px; cursor: pointer; font-size: 0.7rem; width: 100%;">
+                    <i class="fas fa-info-circle"></i> 詳細を見る
                 </button>
             </div>
         `;
